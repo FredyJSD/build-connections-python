@@ -1,0 +1,46 @@
+{%include "header.html"%}
+
+<body class="ice-body">
+  <div class="card-menu">
+        <h1>Ice Breaker</h1>
+        <div class="card-container ice-card">
+            <p class="question-text">{{ question[0].question}}</p>
+        </div>
+        <div class="direction-buttons">
+            <button class="prev-button" onclick="previousQuestion()">&#x2190; Prev</button>
+            <button class="next-button" onclick="nextQuestion()">Next &#x2192;</button>
+        </div>
+        <div class="directions">
+            <form for="deep-button" action="/deep" method="get">
+                <button name="deep-button" class="deep-button">Deep</button>
+            </form>
+            <form for="confess-button" action="/confess" method="get">
+                <button name="confess-button" class="confess-button ">Confess </button>
+            </form>
+        </div>
+  </div>
+  <script>
+        let questions = {{ question | tojson | safe }};
+        let index = 0;
+
+        function updateQuestion(){
+            const questionText = document.querySelector('.question-text');
+            questionText.textContent = questions[index].question;
+        }
+
+        function previousQuestion(){
+            if(index > 0){
+                index--;
+                updateQuestion();
+            }
+        }
+
+        function nextQuestion(){
+            if(index < questions.length - 1){
+                index++;
+                updateQuestion();
+            }
+        }
+  </script>
+</body>
+</html>
