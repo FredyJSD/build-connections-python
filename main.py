@@ -1,8 +1,63 @@
 import os
+from datetime import datetime
+
 from flask import Flask, render_template
 import json
 
+from sqlalchemy import Integer, String, Text, Boolean, DateTime
+from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
+from flask_sqlalchemy import SQLAlchemy
+
 app = Flask(__name__)
+
+
+# Creating Databases
+class Base(DeclarativeBase):
+    pass
+
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///posts.db")
+db = SQLAlchemy(model_class=Base)
+db.init_app(app)
+
+
+class Users(db.Model):
+    __tablename__ = "users"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String(100), nullable=False)
+    email: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
+    password: Mapped[str] = mapped_column(String(100), nullable=False)
+    reset_token: Mapped[str] = mapped_column(String(100), nullable=True)
+    reset_token_expiry: Mapped[datetime] = mapped_column(DateTime, nullable=True)
+
+    # relationships
+    questions = relationship("Questions", back_populates="creator", cascade="all, delete-orphan")
+    progress = relationship("UserQuestionProgress", back_populates="user", cascade="all, delete-orphan")
+
+
+class Questions(db.Model):
+    __tablename__ = "questions"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    level: Mapped[str] = mapped_column(String(20), nullable=False)
+    text: Mapped[str] = mapped_column(Text, nullable=False)
+    created_by: Mapped[int] = mapped_column(Integer, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+
+    # relationships
+    creator = relationship("Users", back_populates="questions")
+    progress = relationship("UserQuestionProgress", back_populates="question", cascade="all, delete-orphan")
+
+
+class UserQuestionProgress(db.Model):
+    __tablename__ = "question_progress"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    answered: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    user_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    question_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("questions.id", ondelete="CASCADE"), nullable=False)
+
+    # relationships
+    user = relationship("Users", back_populates="progress")
+    question = relationship("Questions", back_populates="progress")
+
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
