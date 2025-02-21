@@ -1,46 +1,52 @@
-{%include "header.html"%}
+{% extends "base.html" %}
 
-<body class="deep-body">
-  <div class="card-menu">
-        <h1>Deep</h1>
-        <div class="card-container deep-card">
-            <p class="question-text">{{ question[0].question}}</p>
-        </div>
-        <div class="direction-buttons">
-            <button class="prev-button" onclick="previousQuestion()">&#x2190; Prev</button>
-            <button class="next-button" onclick="nextQuestion()">Next &#x2192;</button>
-        </div>
-        <div class="directions">
-            <form for="confess-button" action="/confess" method="get">
-                <button name="confess-button" class="confess-button">Confess</button>
-            </form>
-            <form for="ice-button" action="/icebreaker" method="get">
-                <button name="ice-button" class="ice-button">Ice Breaker</button>
-            </form>
-        </div>
-  </div>
-  <script>
-        let questions = {{ question | tojson | safe }};
-        let index = 0;
+{% block title %}Deep Questions{% endblock %}
+{% block stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/other.css') }}">
+{% endblock%}
+{% block body_class %}deep-body{% endblock %}
 
-        function updateQuestion(){
-            const questionText = document.querySelector('.question-text');
-            questionText.textContent = questions[index].question;
+{% block content %}
+<div class="card-menu">
+    <h1>Deep</h1>
+    <div class="card-container deep-card">
+        <p class="question-text">{{ question[0].question }}</p>
+    </div>
+    <div class="direction-buttons">
+        <button class="prev-button" onclick="previousQuestion()">&#x2190; Prev</button>
+        <button class="next-button" onclick="nextQuestion()">Next &#x2192;</button>
+    </div>
+    <div class="directions">
+        <form action="/confess" method="get">
+            <button name="confess-button" class="confess-button">Confess</button>
+        </form>
+        <form action="/icebreaker" method="get">
+            <button name="ice-button" class="ice-button">Ice Breaker</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    let questions = {{ question | tojson | safe }};
+    let index = 0;
+
+    function updateQuestion() {
+        const questionText = document.querySelector('.question-text');
+        questionText.textContent = questions[index].question;
+    }
+
+    function previousQuestion() {
+        if (index > 0) {
+            index--;
+            updateQuestion();
         }
+    }
 
-        function previousQuestion(){
-            if(index > 0){
-                index--;
-                updateQuestion();
-            }
+    function nextQuestion() {
+        if (index < questions.length - 1) {
+            index++;
+            updateQuestion();
         }
-
-        function nextQuestion(){
-            if(index < questions.length - 1){
-                index++;
-                updateQuestion();
-            }
-        }
-  </script>
-</body>
-</html>
+    }
+</script>
+{% endblock %}

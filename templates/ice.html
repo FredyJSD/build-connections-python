@@ -1,6 +1,12 @@
-{%include "header.html"%}
+{% extends "base.html" %}
 
-<body class="ice-body">
+{% block title %}Icebreaker Questions{% endblock %}
+{% block stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/other.css') }}">
+{% endblock%}
+{% block body_class %}ice-body{% endblock %}
+
+{% block content %}
   <div class="card-menu">
         <h1>Ice Breaker</h1>
         <div class="card-container ice-card">
@@ -11,14 +17,15 @@
             <button class="next-button" onclick="nextQuestion()">Next &#x2192;</button>
         </div>
         <div class="directions">
-            <form for="deep-button" action="/deep" method="get">
+            <form action="/deep" method="get">
                 <button name="deep-button" class="deep-button">Deep</button>
             </form>
-            <form for="confess-button" action="/confess" method="get">
+            <form action="/confess" method="get">
                 <button name="confess-button" class="confess-button ">Confess </button>
             </form>
         </div>
   </div>
+
   <script>
         let questions = {{ question | tojson | safe }};
         let index = 0;
@@ -42,5 +49,4 @@
             }
         }
   </script>
-</body>
-</html>
+{% endblock %}

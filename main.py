@@ -1,15 +1,26 @@
 import os
+from dotenv import load_dotenv
 from datetime import datetime
-
-from flask import Flask, render_template
+from flask import Flask, render_template, flash, redirect, url_for
 import json
 
+from flask_bootstrap import Bootstrap5
+from flask_ckeditor import CKEditor
+from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user
+from flask_wtf import CSRFProtect
 from sqlalchemy import Integer, String, Text, Boolean, DateTime
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+from forms import RegisterForm
+
+load_dotenv()
 
 app = Flask(__name__)
-
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+ckeditor = CKEditor(app)
+csrf = CSRFProtect(app)
+Bootstrap5(app)
 
 # Creating Databases
 class Base(DeclarativeBase):
@@ -21,7 +32,7 @@ db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
 
-class Users(db.Model):
+class Users(UserMixin, db.Model):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
@@ -73,6 +84,14 @@ def load_json(question_file):
         print(f"Error reading or parsing the JSON file: {err}")
         raise
 
+def hash_password(password):
+    hashed_password = generate_password_hash(password, method="pbkdf2:sha256", salt_length=8)
+    return hashed_password
+
+
+def verify_password(hashed_password, password):
+    return check_password_hash(hashed_password, password)
+
 
 @app.route('/')
 def home():
@@ -82,6 +101,34 @@ def home():
 @app.route('/menu')
 def menu():
     return render_template('menu.html')
+
+
+@app.route('/register', methods=["GET", "POST"])
+def register():
+    form = RegisterForm()
+    # if form.validate_on_submit():
+    #     email = form.email.data
+    #     result = db.session.execute(db.select(Users).where(Users.email == email))
+    #     user = result.scalar()
+    #     if user:
+    #         flash("You've already signed up with that email, log in instead!")
+    #         return redirect(url_for('login'))
+    #
+    #     new_user = Users(
+    #         name=form.name.data,
+    #         email=form.email.data,
+    #         password=hash_password(form.password.data)
+    #     )
+    #
+    #     db.session.add(new_user)
+    #     db.session.commit()
+    #     login_user(new_user)
+    #     return redirect(url_for("menu"))
+    return render_template("register.html", form=form)
+
+@app.route("/login")
+def login():
+    return render_template("index.html")
 
 
 @app.route('/icebreaker')

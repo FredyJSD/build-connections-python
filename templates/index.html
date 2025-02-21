@@ -1,22 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Build Connections</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta charset="UTF-8">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-</head>
-<body>
-  <div class="start-menu">
-      <h1>Ask and Connect</h1>
-      <h3>3 - Levels</h3>
-      <form for="start-button" action="/menu" method="get">
+{% extends "base.html" %}
+
+{% block title %}Ask and Connect{% endblock %}
+{% block stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+{% endblock%}
+{% block body_class %}start-body{% endblock %}
+
+{% block content %}
+<div class="start-menu">
+    <h1>Ask and Connect</h1>
+    <h3>3 - Levels</h3>
+    <form action="/menu" method="get">
         <button id="start-button" name="start-button" value="start-button">Start</button>
-      </form>
-      <p>Ask and answer questions that lead to deeper connections</p>
-  </div>
-  <script>
-  </script>
-</body>
-</html>
+    </form>
+    <p>Ask and answer questions that lead to deeper connections</p>
+</div>
+{% endblock %}

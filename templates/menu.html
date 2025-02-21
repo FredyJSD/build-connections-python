@@ -1,21 +1,24 @@
-{%include "header.html"%}
-<body class="menu-body">
-  <div class="main-menu">
-      <h1>Select difficulty</h1>
-      <div class="menu-button-container">
-        <form for="ice-button" action="/icebreaker" method="get">
-          <button class="ice" name="ice-button" value="ice-button">Ice Breaker</button>
-        </form>
-        <form for="confess-button" action="/confess" method="get">
-          <button class="confess" name="confess-button" value="confess-button">Confess</button>
-        </form>
+{% extends "base.html" %}
 
-        <form for="deep-button" action="/deep" method="get">
-          <button class="deep" name="deep-button" value="deep-button">Deep</button>
+{% block title %}Select Difficulty{% endblock %}
+{% block stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/other.css') }}">
+{% endblock%}
+{% block body_class %}menu-body{% endblock %}
+
+{% block content %}
+<div class="main-menu">
+    <h1>Select Difficulty</h1>
+    <div class="menu-button-container">
+        <form action="/icebreaker" method="get">
+            <button class="ice" name="ice-button" value="ice-button">Ice Breaker</button>
         </form>
-      </div>
-  </div>
-  <script>
-  </script>
-</body>
-</html>
+        <form action="/confess" method="get">
+            <button class="confess" name="confess-button" value="confess-button">Confess</button>
+        </form>
+        <form action="/deep" method="get">
+            <button class="deep" name="deep-button" value="deep-button">Deep</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
