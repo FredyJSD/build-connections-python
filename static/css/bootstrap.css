@@ -1,0 +1,32 @@
+.register-body{
+    background-image: url("/static/assets/img/birds.jpg");
+    background-size: cover; /* Ensures it covers the entire screen */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents repetition */
+    background-attachment: fixed; /* Optional: Keeps the background fixed while scrolling */
+    height: 100vh; /* Ensures the body fills the viewport */
+    margin: 0;
+}
+
+.login-body{
+    background-image: url("/static/assets/img/leaf.jpg");
+    background-size: cover; /* Ensures it covers the entire screen */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents repetition */
+    background-attachment: fixed; /* Optional: Keeps the background fixed while scrolling */
+    height: 100vh; /* Ensures the body fills the viewport */
+    margin: 0;
+}
+
+.card{
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px); border: none;
+}
+
+.btn-outline-dark{
+    margin: 0 auto;
+}
+
+.btn-outline-light{
+    margin: 0 auto;
+}

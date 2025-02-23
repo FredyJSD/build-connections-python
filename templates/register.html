@@ -2,7 +2,10 @@
 {% extends "base.html" %}
 
 {% block title %}Register{% endblock %}
-{% block stylesheet %} {{ bootstrap.load_css() }} {% endblock%}
+{% block stylesheet %}
+    {{ bootstrap.load_css() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+{% endblock%}
 {% block body_class %}register-body{% endblock %}
 
 {% block content %}
@@ -13,11 +16,12 @@
                 <h2 class="text-center mb-4">Register</h2>
                 <form method="POST">
                     {{ form.hidden_tag() }}
-                    {{ render_form(form, novalidate=True, button_map={"submit": "secondary"}) }}
+                    {{ render_form(form, novalidate=True, button_map={"submit": "outline-dark w-100"}) }}
                 </form>
-                <p class="text-center mt-3">
-                    Already have an account? <a href="{{ url_for('login') }}">Login here</a>.
+                <p class="text-center mt-5">
+                    Already have an account?
                 </p>
+                <a class="btn btn-outline-dark" href="{{ url_for('login') }}">Login here</a>.
             </div>
         </div>
     </div>
