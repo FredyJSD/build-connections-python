@@ -11,7 +11,7 @@ from sqlalchemy import Integer, String, Text, Boolean, DateTime
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import RegisterForm, LoginForm
+from forms import RegisterForm, LoginForm, NewSession
 
 load_dotenv()
 
@@ -219,6 +219,11 @@ def login():
 def sessions():
     return render_template('sessions.html')
 
+
+@app.route('/new-session')
+def create_session():
+    form = NewSession()
+    return render_template('create_session.html', form=form)
 
 @app.route('/icebreaker')
 def icebreaker():

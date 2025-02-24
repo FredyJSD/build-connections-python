@@ -15,3 +15,8 @@ class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired(), Length(min=6)])
     submit = SubmitField("Login!")
+
+
+class NewSession(FlaskForm):
+    session_name = StringField("Name", validators=[DataRequired()])
+    submit = SubmitField("Add Session!")
