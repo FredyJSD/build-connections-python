@@ -21,17 +21,15 @@ ckeditor = CKEditor(app)
 csrf = CSRFProtect(app)
 Bootstrap5(app)
 
-
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
 # Creating Databases
 class Base(DeclarativeBase):
     pass
-
-
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///posts.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DB_URI", "sqlite:///build_connections.db")
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -48,6 +46,17 @@ class Users(UserMixin, db.Model):
     # relationships
     questions = relationship("Questions", back_populates="creator", cascade="all, delete-orphan")
     progress = relationship("UserQuestionProgress", back_populates="user", cascade="all, delete-orphan")
+    session_associations = relationship("GameSessionUsers", back_populates="user", cascade="all, delete-orphan")
+
+
+class GameSession(db.Model):
+    __tablename__ = "game_sessions"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String(100), nullable=False)
+
+    # relationships
+    progress = relationship("UserQuestionProgress", back_populates="session", cascade="all, delete-orphan")
+    session_associations = relationship("GameSessionUsers", back_populates="session", cascade="all, delete-orphan")
 
 
 class Questions(db.Model):
@@ -65,6 +74,8 @@ class Questions(db.Model):
 class UserQuestionProgress(db.Model):
     __tablename__ = "question_progress"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    session_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("game_sessions.id", ondelete="CASCADE"),
+                                            nullable=False)
     answered: Mapped[bool] = mapped_column(Boolean, nullable=False)
     user_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     question_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("questions.id", ondelete="CASCADE"), nullable=False)
@@ -72,10 +83,57 @@ class UserQuestionProgress(db.Model):
     # relationships
     user = relationship("Users", back_populates="progress")
     question = relationship("Questions", back_populates="progress")
+    session = relationship("GameSession", back_populates="progress")
+
+class GameSessionUsers(db.Model):
+    __tablename__ = "game_session_users"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    session_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("game_sessions.id", ondelete="CASCADE"),
+                                            nullable=False)
+    user_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+
+    # relationships
+    session = relationship("GameSession", back_populates="session_associations")
+    user = relationship("Users", back_populates="session_associations")
+
 
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
+
+
+# For Testing
+def add_all_questions(admin_id: int):
+    questions = [
+        # Ice Breaker Questions
+        Questions(
+            level="ice breaker",
+            text="How do you usually spend your weekends?",
+            created_by=admin_id
+        ),
+        Questions(
+            level="ice breaker",
+            text="What’s the last movie or TV show you really enjoyed?",
+            created_by=admin_id
+        ),
+        Questions(
+            level="ice breaker",
+            text="What’s a hobby you could talk about for hours?",
+            created_by=admin_id
+        ),
+        Questions(
+            level="ice breaker",
+            text="If you could visit anywhere in the world, where would you go and why?",
+            created_by=admin_id
+        ),
+        Questions(
+            level="ice breaker",
+            text="Do you prefer the beach, mountains, or city for a getaway?",
+            created_by=admin_id
+        )
+    ]
+    db.session.add_all(questions)  # Add all questions to session
+    db.session.commit()
 
 
 @login_manager.user_loader
@@ -93,6 +151,7 @@ def load_json(question_file):
         print(f"Error reading or parsing the JSON file: {err}")
         raise
 
+
 def hash_password(password):
     hashed_password = generate_password_hash(password, method="pbkdf2:sha256", salt_length=8)
     return hashed_password
@@ -104,6 +163,8 @@ def verify_password(hashed_password, password):
 
 @app.route('/')
 def home():
+    # db.create_all()
+    # add_all_questions(1)
     return render_template('index.html', current_user=current_user)
 
 
@@ -135,7 +196,8 @@ def register():
         return redirect(url_for("menu"))
     return render_template("register.html", form=form)
 
-@app.route("/login")
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -153,12 +215,19 @@ def login():
     return render_template("login.html", form=form)
 
 
+@app.route('/sessions')
+def sessions():
+    return render_template('sessions.html')
+
+
 @app.route('/icebreaker')
 def icebreaker():
-    questions = load_json('questions')
-    ice_level = next((level for level in questions["levels"] if level["name"] == "ice breaker"), None)
-    ice_questions = ice_level["questions"] if ice_level else []
-    return render_template('ice.html', question=ice_questions)
+    result = db.session.execute(
+        db.select(Questions).filter(Questions.created_by == 1, Questions.level == "ice breaker")
+    )
+    ice_questions = result.scalars().all()
+    questions_list = [{"text": q.text} for q in ice_questions]
+    return render_template('ice.html', questions=questions_list)
 
 
 @app.route('/confess')
@@ -178,4 +247,4 @@ def deep():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=3000)
+    app.run(debug=True, port=5001)

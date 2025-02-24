@@ -10,7 +10,7 @@
   <div class="card-menu">
         <h1>Ice Breaker</h1>
         <div class="card-container ice-card">
-            <p class="question-text">{{ question[0].question}}</p>
+            <p class="question-text"></p>
         </div>
         <div class="direction-buttons">
             <button class="prev-button" onclick="previousQuestion()">&#x2190; Prev</button>
@@ -27,12 +27,12 @@
   </div>
 
   <script>
-        let questions = {{ question | tojson | safe }};
+        let questions = {{ questions | tojson | safe }};
         let index = 0;
 
         function updateQuestion(){
             const questionText = document.querySelector('.question-text');
-            questionText.textContent = questions[index].question;
+            questionText.innerText = questions[index].text;
         }
 
         function previousQuestion(){
@@ -48,5 +48,14 @@
                 updateQuestion();
             }
         }
+
+        window.onload = function() {
+            if (questions.length > 0) {
+                updateQuestion();
+            } else {
+                document.querySelector('.question-text').innerText = "No icebreaker questions available.";
+            }
+        }
+
   </script>
 {% endblock %}

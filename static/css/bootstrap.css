@@ -1,26 +1,41 @@
 .register-body{
     background-image: url("/static/assets/img/birds.jpg");
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
     background-size: cover; /* Ensures it covers the entire screen */
     background-position: center; /* Centers the image */
     background-repeat: no-repeat; /* Prevents repetition */
-    background-attachment: fixed; /* Optional: Keeps the background fixed while scrolling */
+    background-attachment: fixed; /* Keeps the background fixed while scrolling */
     height: 100vh; /* Ensures the body fills the viewport */
     margin: 0;
 }
 
 .login-body{
     background-image: url("/static/assets/img/leaf.jpg");
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
     background-size: cover; /* Ensures it covers the entire screen */
     background-position: center; /* Centers the image */
     background-repeat: no-repeat; /* Prevents repetition */
-    background-attachment: fixed; /* Optional: Keeps the background fixed while scrolling */
+    background-attachment: fixed; /* Keeps the background fixed while scrolling */
+    height: 100vh; /* Ensures the body fills the viewport */
+    margin: 0;
+}
+
+.sessions-body{
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    background-image: url("/static/assets/img/sessions.jpg");
+    background-size: cover; /* Ensures it covers the entire screen */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents repetition */
+    background-attachment: fixed; /* Keeps the background fixed while scrolling */
     height: 100vh; /* Ensures the body fills the viewport */
     margin: 0;
 }
 
 .card{
     background-color: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(5px); border: none;
+    backdrop-filter: blur(5px);
+    border: none;
+    border-radius: 15px;
 }
 
 .btn-outline-dark{
@@ -29,4 +44,81 @@
 
 .btn-outline-light{
     margin: 0 auto;
+}
+
+.flash {
+  color: #ee6f57;
+  text-align: center;
+}
+
+/* Sessions Page */
+.session-card{
+    background-color: rgba(20, 30, 50, 0.4); /* Slightly deeper blue */
+    backdrop-filter: blur(8px);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.sessions-gallery{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px; /*Spacing between items */
+}
+
+.sessions-item{
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 250px;
+}
+
+.sessions-header{
+    color: white;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 8px rgba(173, 216, 230, 0.5); /* Subtle glow */
+    letter-spacing: 2px; /* Slight spacing for a clean look */
+    border-bottom: 2px solid rgba(173, 216, 230, 0.4); /* Underline */
+
+}
+
+.session-button{
+    background: rgba(0, 30, 60, 0.4);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    margin: .5rem;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    backdrop-filter: blur(8px); /* Enhances glass effect */
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 8px rgba(0, 30, 60, 0.4);
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Hover Effect - Subtle Blue Glow */
+.session-button:hover {
+    background: rgba(173, 216, 230, 0.3);
+    border-color: rgba(173, 216, 230, 0.8);
+    box-shadow: 0px 0px 7px rgba(173, 216, 230, 0.8);
+    transform: translateY(-3px); /* Slight lift */
+    mouse: pointer
+}
+
+/* Click Effect */
+.session-button:active {
+    transform: scale(0.98);
+    box-shadow: 0px 0px 6px rgba(0, 191, 255, 0.5);
+}
+
+.option-button{
+    border: 2px solid rgba(173, 216, 230, 0.5);
 }
