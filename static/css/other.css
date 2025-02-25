@@ -1,22 +1,57 @@
-.menu-body{
-    background-image: url("/static/assets/img/Mountain.jpg");
-    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+/* Body Styling */
+body {
     height: 100vh;
+    text-align: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
     margin: 0;
     color: white;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 }
 
+.menu-body{background-image: url("/static/assets/img/Mountain.jpg");}
+.ice-body{background-image: url("/static/assets/img/IceBreaker.jpg");}
+.confess-body{background-image: url("/static/assets/img/Confess.jpg");}
+.deep-body{background-image: url("/static/assets/img/ocean.jpg");}
+
+/* Card Container*/
+.card-menu{
+    width: 60%;
+    margin: auto;
+    border: none
+}
+
+.card-container{
+    border: 3px solid white;
+    border-radius: 20px;
+    padding: 10rem 3rem;
+    margin: 1rem 0;
+}
+
+/* Card Backgrounds*/
+.ice-card{background-color: rgba(139, 163, 183, 0.5);}
+.confess-card{background-color: #8ba2a44c;}
+.deep-card{background-color: #40595c4c;}
+
+/* Buttons */
 .btn-custom {
     border: none;
-    border-radius: 20px;
-    padding: 10vh; /* Optional: Can be replaced with Bootstrap's .btn-lg */
     color: white;
-    font-size: larger;
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
     transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+/* Main Menu Buttons*/
+.ice, .confess, .deep, .other {
+    border-radius: 20px;
+    padding: 10vh;
+    font-size: larger;
+    width: 100%;
 }
 
 /* Button Colors */
@@ -26,7 +61,7 @@
 .other { background-color: rgba(173, 216, 230, 0.43); }
 
 /* Hover Effects */
-.ice:hover, .confess:hover, .deep:hover {
+.ice:hover, .confess:hover, .deep:hover, .other:hover{
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
     transform: scale(1.1);
 }
@@ -34,145 +69,71 @@
 .ice:hover { background-color: #7a95a1b7; }
 .confess:hover { background-color: #42668eb7; }
 .deep:hover { background-color: #031029b7; }
+.other:hover { background-color: rgba(170, 230, 210, 0.43);}
 
 /* Active Effects */
-.ice:active, .confess:active, .deep:active {
+.ice:active, .confess:active, .deep:active, .other:active {
     transform: scale(1.05);
 }
 
 .ice:active { background-color: #819eabb7; }
 .confess:active { background-color: #4975a7b7; }
 .deep:active { background-color: #0c1f44b7; }
+.other:active { background-color: rgba(173, 230, 210, 0.63); }
 
-body{
-    height: 100vh;
-    text-align: center;
-    background-position-y: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
-    margin: 0;
+
+/*Navigation Buttons*/
+.prev-button, .next-button {
+    margin: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
     color: white;
-    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    border-radius: 10px;
 }
 
-.ice-body{
-    background-image: url("/static/assets/img/IceBreaker.jpg");
-}
-.confess-body{
-    background-image: url("/static/assets/img/Confess.jpg");
-}
-.deep-body{
-    background-image: url("/static/assets/img/ocean.jpg");
-}
-.card-menu{
-    width: 60%;
-    margin: auto;
-}
-.card-container{
-    border: 3px solid white;
-    border-radius: 20px;
-    padding: 10rem 3rem;
-    margin: 1rem 0;
-}
-.ice-card{
-    background-color: rgba(139, 163, 183, 0.5);
-}
-.confess-card{
-    background-color: #8ba2a44c;
-}
-.deep-card{
-    background-color: #40595c4c;
-}
-.direction-buttons{
-    margin-bottom: 1rem;
-}
-.prev-button{
-    border: none;
-    background-color: rgba(167, 188, 208, 0.7);
-    color: white;
-    padding: .5rem 1rem;
-    border-radius: 10px;
-    transition: background-color 0.3s, transform 0.3s;
-    margin: .5rem;
-}
-.next-button{
-    border: none;
-    background-color: rgba(93, 137, 176, 0.7);
-    color: white;
-    padding: .5rem 1rem;
-    border-radius: 10px;
-    transition: background-color 0.3s, transform 0.3s;
-    margin: .5rem;
-}
-.next-button:hover{
-    background-color: rgba(78, 140, 193, 0.7);
+.prev-button { background-color: rgba(167, 188, 208, 0.7); }
+.next-button { background-color: rgba(93, 137, 176, 0.7); }
+
+.prev-button:hover, .next-button:hover {
     transform: scale(1.1);
 }
-.prev-button:hover{
-    background-color: rgba(168, 214, 255, 0.7);
-    transform: scale(1.1);
-}
-.next-button:active{
-    background-color: rgba(59, 119, 172, 0.7);
-    transform: scale(1.05);
-}
-.prev-button:active{
-    background-color: rgba(147, 205, 255, 0.7);
-    transform: scale(1.05);
-}
-.confess-button {
-    border: none;
-    background-color: #8ba2a4d3;
-    color: white;
-    padding: 1rem 2rem;
-    border-radius: 10px;
-    transition: background-color 0.3s, transform 0.3s;
-}
-.confess-button:hover{
-    background-color: #9db5b8b9;
-    transform: scale(1.10);
-}
-.confess-button:active{
-    background-color: #6c8486c1;
-    transform: scale(1.05);
-}
-.directions{
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
-}
-.ice-button {
-    border: none;
-    background-color: rgba(139, 163, 183, 0.5);
-    color: white;
-    padding: 1rem 2rem;
-    border-radius: 10px;
-    transition: background-color 0.3s, transform 0.3s;
-}
-.ice-button:hover{
-    background-color: rgba(160, 186, 207, 0.5);
-    transform: scale(1.10);
-}
-.ice-button:active{
-    background-color: rgba(114, 142, 164, 0.5);
-    transform: scale(1.05);
-}
-.deep-button {
-    border: none;
-    background-color: #40595c4c;
-    color: white;
-    padding: 1rem 2rem;
-    border-radius: 10px;
-    transition: background-color 0.3s, transform 0.3s;
-}
-.deep-button:hover{
-    background-color: #5573764c;
-    transform: scale(1.10);
-}
-.deep-button:active{
-    background-color: #2b4a4d4c;
+
+.prev-button:hover { background-color: rgba(168, 214, 255, 0.7); }
+.next-button:hover { background-color: rgba(78, 140, 193, 0.7); }
+
+.prev-button:active, .next-button:active {
     transform: scale(1.05);
 }
 
+.prev-button:active { background-color: rgba(147, 205, 255, 0.7); }
+.next-button:active { background-color: rgba(59, 119, 172, 0.7); }
+
+/* Direction Button Styling */
+.confess-button, .ice-button, .deep-button {
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.confess-button { background-color: #8ba2a4d3; }
+.ice-button { background-color: rgba(139, 163, 183, 0.5); }
+.deep-button { background-color: #40595c4c; }
+
+/* Direction Buttons Hover Effects */
+.confess-button:hover, .ice-button:hover, .deep-button:hover {
+    transform: scale(1.1);
+}
+
+.confess-button:hover { background-color: #9db5b8b9; }
+.ice-button:hover { background-color: rgba(160, 186, 207, 0.5); }
+.deep-button:hover { background-color: #5573764c; }
+
+
+/* Direction Buttons Active Effects */
+.confess-button:active, .ice-button:active, .deep-button:active {
+    transform: scale(1.05);
+}
+
+.confess-button:active { background-color: #6c8486c1; }
+.ice-button:active { background-color: rgba(114, 142, 164, 0.5); }
+.deep-button:active { background-color: #2b4a4d4c; }

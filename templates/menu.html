@@ -12,19 +12,25 @@
     <h1>Select Difficulty</h1>
     <div class="main-menu ">
         <div class="row justify-content-center">
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <form action="/icebreaker" method="get">
-                    <button class="btn ice btn-custom w-100" name="ice-button" value="ice-button">Ice Breaker</button>
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
+                <form action="/icebreaker" method="get" class="d-flex flex-column w-100">
+                    <button class="btn ice btn-custom w-100 flex-grow-1" name="ice-button" value="ice-button">Ice Breaker</button>
                 </form>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <form action="/confess" method="get">
-                    <button class="btn confess btn-custom w-100" name="confess-button" value="confess-button">Confess</button>
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
+                <form action="/confess" method="get" class="d-flex flex-column w-100">
+                    <button class="btn confess btn-custom w-100 flex-grow-1" name="confess-button" value="confess-button">Confess</button>
                 </form>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <form action="/deep" method="get">
-                    <button class="btn deep btn-custom w-100" name="deep-button" value="deep-button">Deep</button>
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
+                <form action="/deep" method="get" class="d-flex flex-column w-100">
+                    <button class="btn deep btn-custom w-100 flex-grow-1" name="deep-button" value="deep-button">Deep</button>
+                </form>
+            </div>
+<!--            If the user is logged in. Their other questions will appear-->
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
+                <form action="/user_questions" method="get" class="d-flex flex-column w-100">
+                    <button class="btn other btn-custom w-100 flex-grow-1" name="deep-button" value="deep-button">Deep</button>
                 </form>
             </div>
         </div>

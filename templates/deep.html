@@ -2,51 +2,66 @@
 
 {% block title %}Deep Questions{% endblock %}
 {% block stylesheet %}
+    {{ bootstrap.load_css() }}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/other.css') }}">
 {% endblock%}
 {% block body_class %}deep-body{% endblock %}
 
 {% block content %}
-<div class="card-menu">
-    <h1>Deep</h1>
-    <div class="card-container deep-card">
-        <p class="question-text">{{ question[0].question }}</p>
-    </div>
-    <div class="direction-buttons">
-        <button class="prev-button" onclick="previousQuestion()">&#x2190; Prev</button>
-        <button class="next-button" onclick="nextQuestion()">Next &#x2192;</button>
-    </div>
-    <div class="directions">
-        <form action="/confess" method="get">
-            <button name="confess-button" class="confess-button">Confess</button>
-        </form>
-        <form action="/icebreaker" method="get">
-            <button name="ice-button" class="ice-button">Ice Breaker</button>
-        </form>
+<div class="container text-center">
+    <div class="card-menu">
+        <h1 class="mb-4">Confess</h1>
+
+        <div class="card-container card-body deep-card">
+            <p class="question-text"></p>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3">
+            <button class="btn btn-custom prev-button mx-2" onclick="previousQuestion()">&#x2190; Prev</button>
+            <button class="btn btn-custom next-button mx-2" onclick="nextQuestion()">Next &#x2192;</button>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <form action="/confess" method="get">
+                <button class="btn btn-custom ice-button">Confess</button>
+            </form>
+            <form action="/icebreaker" method="get">
+                <button class="btn btn-custom deep-button">Ice Breaker</button>
+            </form>
+        </div>
     </div>
 </div>
 
 <script>
-    let questions = {{ question | tojson | safe }};
-    let index = 0;
+        let questions = {{ questions | tojson | safe }};
+        let index = 0;
 
-    function updateQuestion() {
-        const questionText = document.querySelector('.question-text');
-        questionText.textContent = questions[index].question;
-    }
-
-    function previousQuestion() {
-        if (index > 0) {
-            index--;
-            updateQuestion();
+        function updateQuestion(){
+            const questionText = document.querySelector('.question-text');
+            questionText.innerText = questions[index].text;
         }
-    }
 
-    function nextQuestion() {
-        if (index < questions.length - 1) {
-            index++;
-            updateQuestion();
+        function previousQuestion(){
+            if(index > 0){
+                index--;
+                updateQuestion();
+            }
         }
-    }
+
+        function nextQuestion(){
+            if(index < questions.length - 1){
+                index++;
+                updateQuestion();
+            }
+        }
+
+        window.onload = function() {
+            if (questions.length > 0) {
+                updateQuestion();
+            } else {
+                document.querySelector('.question-text').innerText = "No icebreaker questions available.";
+            }
+        }
+
 </script>
 {% endblock %}

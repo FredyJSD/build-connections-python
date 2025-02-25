@@ -2,29 +2,63 @@
 
 {% block title %}Icebreaker Questions{% endblock %}
 {% block stylesheet %}
+    {{ bootstrap.load_css() }}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/other.css') }}">
 {% endblock%}
 {% block body_class %}ice-body{% endblock %}
 
 {% block content %}
-  <div class="card-menu">
-        <h1>Ice Breaker</h1>
-        <div class="card-container ice-card">
+<div class="container text-center">
+    <div class="card-menu">
+        <h1 class="mb-4">Ice Breaker</h1>
+
+        <div class="card-container card-body ice-card">
             <p class="question-text"></p>
         </div>
-        <div class="direction-buttons">
-            <button class="prev-button" onclick="previousQuestion()">&#x2190; Prev</button>
-            <button class="next-button" onclick="nextQuestion()">Next &#x2192;</button>
+
+        <div class="d-flex justify-content-center mt-3">
+            <button class="btn btn-custom prev-button mx-2" onclick="previousQuestion()">&#x2190; Prev</button>
+            <button class="btn btn-custom next-button mx-2" onclick="nextQuestion()">Next &#x2192;</button>
         </div>
-        <div class="directions">
+
+        <div class="d-flex justify-content-between mt-4">
             <form action="/deep" method="get">
-                <button name="deep-button" class="deep-button">Deep</button>
+                <button class="btn btn-custom deep-button">Deep</button>
             </form>
             <form action="/confess" method="get">
-                <button name="confess-button" class="confess-button ">Confess </button>
+                <button class="btn btn-custom confess-button">Confess</button>
             </form>
         </div>
-  </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<!--  <div class="card-menu">-->
+<!--        <h1>Ice Breaker</h1>-->
+
+<!--        <div class="card-container ice-card">-->
+<!--            <p class="question-text"></p>-->
+<!--        </div>-->
+
+<!--        <div class="direction-buttons">-->
+<!--            <button class="prev-button" onclick="previousQuestion()">&#x2190; Prev</button>-->
+<!--            <button class="next-button" onclick="nextQuestion()">Next &#x2192;</button>-->
+<!--        </div>-->
+
+<!--        <div class="directions">-->
+<!--            <form action="/deep" method="get">-->
+<!--                <button name="deep-button" class="deep-button">Deep</button>-->
+<!--            </form>-->
+<!--            <form action="/confess" method="get">-->
+<!--                <button name="confess-button" class="confess-button ">Confess </button>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--  </div>-->
 
   <script>
         let questions = {{ questions | tojson | safe }};

@@ -112,12 +112,12 @@ def add_all_questions(admin_id: int):
             created_by=admin_id
         ),
         Questions(
-            level="ice breaker",
+            level="deep",
             text="What’s the last movie or TV show you really enjoyed?",
             created_by=admin_id
         ),
         Questions(
-            level="ice breaker",
+            level="confess",
             text="What’s a hobby you could talk about for hours?",
             created_by=admin_id
         ),
@@ -242,18 +242,22 @@ def icebreaker():
 
 @app.route('/confess')
 def confess():
-    questions = load_json('questions')
-    confess_level = next((level for level in questions["levels"] if level["name"] == "confess"), None)
-    confess_questions = confess_level["questions"] if confess_level else []
-    return render_template('confess.html', question=confess_questions)
+    result = db.session.execute(
+        db.select(Questions).filter(Questions.created_by == 1, Questions.level == "confess")
+    )
+    confess_questions = result.scalars().all()
+    questions_list = [{"text": q.text} for q in confess_questions]
+    return render_template('confess.html', questions=questions_list)
 
 
 @app.route('/deep')
 def deep():
-    questions = load_json('questions')
-    deep_level = next((level for level in questions["levels"] if level["name"] == "deep"), None)
-    deep_questions = deep_level["questions"] if deep_level else []
-    return render_template('deep.html', question=deep_questions)
+    result = db.session.execute(
+        db.select(Questions).filter(Questions.created_by == 1, Questions.level == "deep")
+    )
+    deep_questions = result.scalars().all()
+    questions_list = [{"text": q.text} for q in deep_questions]
+    return render_template('deep.html', questions=questions_list)
 
 
 if __name__ == '__main__':
