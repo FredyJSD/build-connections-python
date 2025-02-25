@@ -182,3 +182,33 @@ body {
 .confess-button:active { background-color: #6c8486c1; }
 .ice-button:active { background-color: rgba(114, 142, 164, 0.5); }
 .deep-button:active { background-color: #2b4a4d4c; }
+
+/* Checkbox Styling */
+.custom-checkbox {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    background-color: transparent;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+/* Checked Checked */
+.custom-checkbox:checked {
+    background-color: rgba(255, 255, 255, .8);
+    border-color: rgba(255, 255, 255, .8);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.6);
+}
+
+/* Hover Effect */
+.custom-checkbox:hover {
+    border-color: rgba(255, 255, 255, .8);
+    transform: scale(1.1);
+}
+
+/* Active Click Effect */
+.custom-checkbox:active {
+    transform: scale(0.95);
+}
+
