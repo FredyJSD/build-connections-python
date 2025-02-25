@@ -17,6 +17,7 @@ body {
 .ice-body{background-image: url("/static/assets/img/IceBreaker.jpg");}
 .confess-body{background-image: url("/static/assets/img/Confess.jpg");}
 .deep-body{background-image: url("/static/assets/img/ocean.jpg");}
+.user-question-body{background-image: url("/static/assets/img/user_questions.jpg")}
 
 /* Card Container*/
 .card-menu{
@@ -25,17 +26,39 @@ body {
     border: none
 }
 
+.card-menu h1{
+    color: white;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    letter-spacing: 2px;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.6);
+    padding-bottom: 8px;
+}
+
 .card-container{
-    border: 3px solid white;
+    border: 3px solid rgba(255, 255, 255, 0.7);
     border-radius: 20px;
     padding: 10rem 3rem;
     margin: 1rem 0;
+    backdrop-filter: blur(4px);
+    box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.4);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card-container:hover{
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 20px rgba(255, 255, 255, 0.5);
+}
+
+.card-container p {
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 /* Card Backgrounds*/
 .ice-card{background-color: rgba(139, 163, 183, 0.5);}
 .confess-card{background-color: #8ba2a44c;}
 .deep-card{background-color: #40595c4c;}
+.user-card{background-color: rgba(139, 163, 183, 0.65);}
 
 /* Buttons */
 .btn-custom {
@@ -52,6 +75,12 @@ body {
     padding: 10vh;
     font-size: larger;
     width: 100%;
+
+    backdrop-filter: blur(8px); /* Softens all buttons */
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase;
+    box-shadow: 0px 4px 8px rgba(0, 30, 60, 0.4);
+    cursor: pointer;
 }
 
 /* Button Colors */
@@ -73,6 +102,7 @@ body {
 
 /* Active Effects */
 .ice:active, .confess:active, .deep:active, .other:active {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
     transform: scale(1.05);
 }
 
@@ -89,6 +119,12 @@ body {
     border: none;
     color: white;
     border-radius: 10px;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0px 4px 8px rgba(0, 40, 80, 0.4);
 }
 
 .prev-button { background-color: rgba(167, 188, 208, 0.7); }
@@ -96,6 +132,7 @@ body {
 
 .prev-button:hover, .next-button:hover {
     transform: scale(1.1);
+    box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.4);
 }
 
 .prev-button:hover { background-color: rgba(168, 214, 255, 0.7); }
@@ -103,6 +140,8 @@ body {
 
 .prev-button:active, .next-button:active {
     transform: scale(1.05);
+    box-shadow: 0px 0px 8px rgba(0, 40, 80, 0.8);
+
 }
 
 .prev-button:active { background-color: rgba(147, 205, 255, 0.7); }
@@ -112,7 +151,12 @@ body {
 .confess-button, .ice-button, .deep-button {
     padding: 1rem 2rem;
     border-radius: 10px;
-    transition: background-color 0.3s, transform 0.3s;
+    backdrop-filter: blur(8px);
+    transition: background-color 0.3s, transform 0.3s,  box-shadow 0.3s;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 18px;
+    box-shadow: 0px 4px 8px rgba(0, 40, 80, 0.4);
 }
 
 .confess-button { background-color: #8ba2a4d3; }
@@ -122,6 +166,7 @@ body {
 /* Direction Buttons Hover Effects */
 .confess-button:hover, .ice-button:hover, .deep-button:hover {
     transform: scale(1.1);
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.5);
 }
 
 .confess-button:hover { background-color: #9db5b8b9; }

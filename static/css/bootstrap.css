@@ -1,47 +1,21 @@
-.register-body{
-    background-image: url("/static/assets/img/birds.jpg");
+/*Body*/
+body {
     font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-    background-size: cover; /* Ensures it covers the entire screen */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents repetition */
-    background-attachment: fixed; /* Keeps the background fixed while scrolling */
-    height: 100vh; /* Ensures the body fills the viewport */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
     margin: 0;
 }
 
-.login-body{
-    background-image: url("/static/assets/img/leaf.jpg");
-    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-    background-size: cover; /* Ensures it covers the entire screen */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents repetition */
-    background-attachment: fixed; /* Keeps the background fixed while scrolling */
-    height: 100vh; /* Ensures the body fills the viewport */
-    margin: 0;
-}
+/* Page-Specific Backgrounds */
+.register-body { background-image: url("/static/assets/img/birds.jpg"); }
+.login-body { background-image: url("/static/assets/img/leaf.jpg"); }
+.sessions-body { background-image: url("/static/assets/img/sessions.jpg"); }
+.new-question-body { background-image: url("/static/assets/img/new_question.jpg"); }
 
-.sessions-body{
-    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-    background-image: url("/static/assets/img/sessions.jpg");
-    background-size: cover; /* Ensures it covers the entire screen */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents repetition */
-    background-attachment: fixed; /* Keeps the background fixed while scrolling */
-    height: 100vh; /* Ensures the body fills the viewport */
-    margin: 0;
-}
-
-.new-question-body{
-    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-    background-image: url("/static/assets/img/new_question.jpg");
-    background-size: cover; /* Ensures it covers the entire screen */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents repetition */
-    background-attachment: fixed; /* Keeps the background fixed while scrolling */
-    height: 100vh; /* Ensures the body fills the viewport */
-    margin: 0;
-}
-
+/*Card Styling*/
 .card{
     background-color: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(5px);
@@ -49,32 +23,89 @@
     border-radius: 15px;
 }
 
-.btn-outline-dark{
-    margin: 0 auto;
+.session-card, .new-question-card {
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.btn-outline-light{
-    margin: 0 auto;
+.session-card {
+    background-color: rgba(20, 30, 50, 0.4); /* Deeper blue */
 }
 
+.new-question-card {
+    background-color: rgba(30, 60, 80, 0.4); /* Misty sea blue */
+    color: white;
+}
+
+/*Flash Message*/
 .flash {
   color: #ee6f57;
   text-align: center;
 }
 
-/* Sessions Page */
-.session-card{
-    background-color: rgba(20, 30, 50, 0.4); /* Slightly deeper blue */
-    border-radius: 12px;
-    backdrop-filter: blur(8px);
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+/*Buttons*/
+.btn-outline-dark,
+.btn-outline-light {
+    margin: 0 auto;
 }
 
+.session-button, .new-question-button {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Sessions Page Buttons */
+.session-button {
+    background: rgba(0, 30, 60, 0.4);
+    color: white;
+    box-shadow: 0px 4px 8px rgba(0, 30, 60, 0.4);
+}
+
+.session-button:hover {
+    background: rgba(173, 216, 230, 0.3);
+    border-color: rgba(173, 216, 230, 0.8);
+    box-shadow: 0px 0px 7px rgba(173, 216, 230, 0.8);
+    transform: translateY(-3px);
+}
+
+.session-button:active {
+    transform: scale(0.98);
+    box-shadow: 0px 0px 6px rgba(0, 191, 255, 0.5);
+}
+
+/* New Question Page Button */
+.new-question-button {
+    background: rgba(0, 60, 90, 0.4);
+    color: #e0f7fa;
+    box-shadow: 0px 4px 10px rgba(0, 60, 90, 0.4);
+}
+
+.new-question-button:hover {
+    background: rgba(50, 150, 200, 0.5);
+    box-shadow: 0px 0px 15px rgba(50, 150, 200, 0.6);
+    transform: translateY(-3px);
+}
+
+.new-question-button:active {
+    transform: scale(0.98);
+    box-shadow: 0px 0px 10px rgba(50, 150, 200, 0.4);
+}
+
+/* Sessions Page */
 .sessions-gallery{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 20px; /*Spacing between items */
+    gap: 20px;
 }
 
 .sessions-item{
@@ -96,106 +127,33 @@
     text-shadow: 2px 2px 8px rgba(173, 216, 230, 0.5); /* Subtle glow */
     letter-spacing: 2px; /* Slight spacing for a clean look */
     border-bottom: 2px solid rgba(173, 216, 230, 0.4); /* Underline */
-
 }
 
-.session-button{
-    background: rgba(0, 30, 60, 0.4);
-    border: none;
-    border-radius: 12px;
-    padding: 12px 20px;
-    margin: .5rem;
+/* Session Item Links */
+.session-item a {
+    text-decoration: none;
     font-size: 18px;
     font-weight: bold;
+    color: rgba(255, 255, 255, 0.6); /* Soft white */
+    transition: color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+.session-item a:hover {
+    color: #ff6b6b; /* Soft red for delete action */
+    transform: scale(1.2); /* Slight pop effect */
+}
+.session-item a:active {
+    transform: scale(0.9);
+    opacity: 0.7;
+}
+
+/*Forms*/
+.session-form{
     color: white;
     text-transform: uppercase;
-    backdrop-filter: blur(8px); /* Enhances glass effect */
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0px 4px 8px rgba(0, 30, 60, 0.4);
-    cursor: pointer;
-    width: 100%;
-}
-
-/* Hover Effect - Subtle Blue Glow */
-.session-button:hover {
-    background: rgba(173, 216, 230, 0.3);
-    border-color: rgba(173, 216, 230, 0.8);
-    box-shadow: 0px 0px 7px rgba(173, 216, 230, 0.8);
-    transform: translateY(-3px); /* Slight lift */
-    mouse: pointer
-}
-
-/* Click Effect */
-.session-button:active {
-    transform: scale(0.98);
-    box-shadow: 0px 0px 6px rgba(0, 191, 255, 0.5);
 }
 
 .option-button{
     border: 2px solid rgba(173, 216, 230, 0.5);
     display: block;
     margin: .5rem auto;
-}
-
-.session-item a {
-    text-decoration: none; /* Removes default underline */
-    font-size: 18px; /* Larger size */
-    font-weight: bold;
-    color: rgba(255, 255, 255, 0.6); /* Soft white */
-    transition: color 0.2s ease-in-out, transform 0.1s ease-in-out;
-}
-
-/* 🔹 Hover Effect */
-.session-item a:hover {
-    color: #ff6b6b; /* Soft red for delete action */
-    transform: scale(1.2); /* Slight pop effect */
-}
-
-/* 🔹 Click Effect */
-.session-item a:active {
-    transform: scale(0.9);
-    opacity: 0.7;
-}
-
-.session-form{
-    color: white;
-    text-transform: uppercase;
-}
-
-/*New Question Page*/
-.new-question-card{
-    background-color: rgba(30, 60, 80, 0.4); /* Misty sea blue */
-    border-radius: 12px;
-    backdrop-filter: blur(3px);
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-    color: white; /* Light seafoam white text */
-}
-
-.new-question-button {
-    background: rgba(0, 60, 90, 0.4); /* Deep ocean blue */
-    border: none;
-    border-radius: 12px;
-    padding: 12px 20px;
-    font-size: 18px;
-    font-weight: bold;
-    color: #e0f7fa; /* Light aqua blue */
-    text-transform: uppercase;
-    backdrop-filter: blur(10px); /* Slightly stronger blur */
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0px 4px 10px rgba(0, 60, 90, 0.4);
-    cursor: pointer;
-    width: 100%;
-}
-
-/* 🔹 Hover Effect - Ocean Glow */
-.new-question-button:hover {
-    background: rgba(50, 150, 200, 0.5); /* Vibrant ocean teal */
-    box-shadow: 0px 0px 15px rgba(50, 150, 200, 0.6);
-    transform: translateY(-3px);
-}
-
-/* 🔹 Click Effect */
-.new-question-button:active {
-    transform: scale(0.98);
-    box-shadow: 0px 0px 10px rgba(50, 150, 200, 0.4);
 }

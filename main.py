@@ -260,5 +260,15 @@ def deep():
     return render_template('deep.html', questions=questions_list)
 
 
+@app.route('/user-questions')
+def user_questions():
+    result = db.session.execute(
+        db.select(Questions).filter(Questions.created_by == 1, Questions.level == "deep")
+    )
+    deep_questions = result.scalars().all()
+    questions_list = [{"text": q.text} for q in deep_questions]
+    return render_template('user_questions.html', questions=questions_list)
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
