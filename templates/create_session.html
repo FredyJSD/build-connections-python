@@ -1,7 +1,7 @@
 {% from "bootstrap5/form.html" import render_form %}
 {% extends "base.html" %}
 
-{% block title %}Icebreaker Questions{% endblock %}
+{% block title %}Create Session{% endblock %}
 {% block stylesheet %}
 {{ bootstrap.load_css() }}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
@@ -18,7 +18,9 @@
                 {{ form.hidden_tag() }}
                 <div class="session-form mb-3">
                     {{form.session_name.label}}
-                    {{ form.session_name(class="form-control") }}
+                    {{ form.session_name(class="form-control mb-3", placeholder="New Session Name") }}
+                    {{form.invite.label}}
+                    {{ form.invite(class="form-control", type="email", placeholder="User Email") }}
                 </div>
                 <button type="submit" class="session-button option-button">{{ form.submit.label.text }}</button>
             </form>

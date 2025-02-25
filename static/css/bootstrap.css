@@ -31,6 +31,17 @@
     margin: 0;
 }
 
+.new-question-body{
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    background-image: url("/static/assets/img/new_question.jpg");
+    background-size: cover; /* Ensures it covers the entire screen */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents repetition */
+    background-attachment: fixed; /* Keeps the background fixed while scrolling */
+    height: 100vh; /* Ensures the body fills the viewport */
+    margin: 0;
+}
+
 .card{
     background-color: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(5px);
@@ -149,5 +160,42 @@
 .session-form{
     color: white;
     text-transform: uppercase;
+}
 
+/*New Question Page*/
+.new-question-card{
+    background-color: rgba(30, 60, 80, 0.4); /* Misty sea blue */
+    border-radius: 12px;
+    backdrop-filter: blur(3px);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    color: white; /* Light seafoam white text */
+}
+
+.new-question-button {
+    background: rgba(0, 60, 90, 0.4); /* Deep ocean blue */
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #e0f7fa; /* Light aqua blue */
+    text-transform: uppercase;
+    backdrop-filter: blur(10px); /* Slightly stronger blur */
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(0, 60, 90, 0.4);
+    cursor: pointer;
+    width: 100%;
+}
+
+/* 🔹 Hover Effect - Ocean Glow */
+.new-question-button:hover {
+    background: rgba(50, 150, 200, 0.5); /* Vibrant ocean teal */
+    box-shadow: 0px 0px 15px rgba(50, 150, 200, 0.6);
+    transform: translateY(-3px);
+}
+
+/* 🔹 Click Effect */
+.new-question-button:active {
+    transform: scale(0.98);
+    box-shadow: 0px 0px 10px rgba(50, 150, 200, 0.4);
 }

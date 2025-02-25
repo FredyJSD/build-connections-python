@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, TextAreaField
 from wtforms.validators import DataRequired, URL, Email, Length
 from flask_ckeditor import CKEditorField
 
@@ -19,4 +19,10 @@ class LoginForm(FlaskForm):
 
 class NewSession(FlaskForm):
     session_name = StringField("Name", validators=[DataRequired()])
+    invite = StringField("Invite User", validators=[Email()])
     submit = SubmitField("Add Session!")
+
+
+class NewQuestion(FlaskForm):
+    question = TextAreaField("New Question", render_kw={"rows": 3, "cols": 40}, validators=[DataRequired()])
+    submit = SubmitField("Add Question!")

@@ -1,0 +1,31 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% extends "base.html" %}
+
+{% block title %}New Question{% endblock %}
+{% block stylesheet %}
+{{ bootstrap.load_css() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+{% endblock%}
+{% block body_class %}new-question-body{% endblock %}
+
+{% block content %}
+
+<div class="container py-5 text-center">
+    <div class="new-question-card shadow-lg p-4 mt-5">
+        <h1 class="my-3 pb-4 sessions-header">New Question</h1>
+        <div class="sessions-gallery">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="session-form mb-3">
+                    {{ form.question(class="form-control mb-3") }}
+                </div>
+                <button type="submit" class="new-question-button option-button">{{ form.submit.label.text }}</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>
+{% endblock %}

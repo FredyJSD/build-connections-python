@@ -1,73 +1,48 @@
 .menu-body{
-    height: 100vh;
-    text-align: center;
     background-image: url("/static/assets/img/Mountain.jpg");
-
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
     background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
+    background-attachment: fixed;
+    height: 100vh;
     margin: 0;
     color: white;
-    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 }
-.main-menu{
-    width: 60%;
-    margin: auto;
-}
-.menu-button-container{
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;    
-    gap: 2.5rem;
-}
-.menu-button-container button{
-    flex: 1 1 20%;
+
+.btn-custom {
     border: none;
     border-radius: 20px;
-    padding: 10vh;
+    padding: 10vh; /* Optional: Can be replaced with Bootstrap's .btn-lg */
     color: white;
     font-size: larger;
     transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
-.ice{
-    background-color: #8ea7b8b7;
-}
-.confess{
-    background-color: #5078a0b7;
-}
-.deep{
-    background-color: #041333b7;
-}
 
-.ice:hover{
-    background-color: #7a95a1b7;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
-    transform: scale(1.1);
-}
-.confess:hover{
-    background-color: #42668eb7;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
-    transform: scale(1.1);
-}
-.deep:hover{
-    background-color: #031029b7;
+/* Button Colors */
+.ice { background-color: #8ea7b8b7; }
+.confess { background-color: #5078a0b7; }
+.deep { background-color: #041333b7; }
+.other { background-color: rgba(173, 216, 230, 0.43); }
+
+/* Hover Effects */
+.ice:hover, .confess:hover, .deep:hover {
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
     transform: scale(1.1);
 }
 
-.ice:active{
-    background-color: #819eabb7;
+.ice:hover { background-color: #7a95a1b7; }
+.confess:hover { background-color: #42668eb7; }
+.deep:hover { background-color: #031029b7; }
+
+/* Active Effects */
+.ice:active, .confess:active, .deep:active {
     transform: scale(1.05);
 }
-.confess:active{
-    background-color: #4975a7b7;
-    transform: scale(1.05);
-}
-.deep:active{
-    background-color: #0c1f44b7;
-    transform: scale(1.05);
-}
+
+.ice:active { background-color: #819eabb7; }
+.confess:active { background-color: #4975a7b7; }
+.deep:active { background-color: #0c1f44b7; }
 
 body{
     height: 100vh;
@@ -81,6 +56,7 @@ body{
     color: white;
     font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 }
+
 .ice-body{
     background-image: url("/static/assets/img/IceBreaker.jpg");
 }

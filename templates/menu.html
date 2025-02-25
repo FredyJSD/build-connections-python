@@ -2,23 +2,32 @@
 
 {% block title %}Select Difficulty{% endblock %}
 {% block stylesheet %}
+    {{ bootstrap.load_css() }}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/other.css') }}">
 {% endblock%}
 {% block body_class %}menu-body{% endblock %}
 
 {% block content %}
-<div class="main-menu">
+<div class="container text-center">
     <h1>Select Difficulty</h1>
-    <div class="menu-button-container">
-        <form action="/icebreaker" method="get">
-            <button class="ice" name="ice-button" value="ice-button">Ice Breaker</button>
-        </form>
-        <form action="/confess" method="get">
-            <button class="confess" name="confess-button" value="confess-button">Confess</button>
-        </form>
-        <form action="/deep" method="get">
-            <button class="deep" name="deep-button" value="deep-button">Deep</button>
-        </form>
+    <div class="main-menu ">
+        <div class="row justify-content-center">
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <form action="/icebreaker" method="get">
+                    <button class="btn ice btn-custom w-100" name="ice-button" value="ice-button">Ice Breaker</button>
+                </form>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <form action="/confess" method="get">
+                    <button class="btn confess btn-custom w-100" name="confess-button" value="confess-button">Confess</button>
+                </form>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <form action="/deep" method="get">
+                    <button class="btn deep btn-custom w-100" name="deep-button" value="deep-button">Deep</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
