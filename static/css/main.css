@@ -4,6 +4,7 @@ body{
     background-image: url("/static/assets/img/Background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: center;
     display: flex;
     align-items: center;
     margin: 0;
@@ -11,32 +12,45 @@ body{
     font-family: 'Montserrat', Arial, Helvetica, sans-serif;
 }
 .start-menu{
-    background-color: rgba(175, 175, 175, 0.5);
-    width: 70%;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    background-color: rgba(175, 175, 175, 0.35);
+    backdrop-filter: blur(10px); /* Enhances frosted glass effect */
+    width: 75%;
     border-radius: 20px;
     padding: 1rem;
-    box-shadow: 10px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 4px 4px 15px rgba(255, 255, 255, .3);
 }
-button{
-    background-color: #e7ad6fd0;
+
+.menu-text{
+    text-transform: uppercase;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+    letter-spacing: 2px;
+}
+
+.text{
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.btn-start {
+    background-color: #e7ad6fd0; /* Warm Orange */
     border: none;
     padding: 1.5rem 3.5rem;
     color: white;
     border-radius: 10px;
     margin: 1rem 0;
     font-size: larger;
-    transition: background-color 0.3s, transform 0.3s;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    display: inline-block;
 }
-button:hover{
+.btn-start:hover {
     background-color: #feab52d0;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.6);
     transform: scale(1.1);
+    mouse: pointer;
 }
-button:active{
+
+.btn-start:active {
     background-color: #ce8436d0;
     transform: scale(1.05);
 }

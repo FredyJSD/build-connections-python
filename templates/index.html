@@ -7,26 +7,25 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
 {% endblock%}
 {% block body_class %}start-body{% endblock %}
-
 {% block content %}
-<div class="start-menu">
-    <h1>Ask and Connect</h1>
-    <h3>3 - Levels</h3>
-<!--    If account already logged in they can start-->
-    {%if current_user.is_authenticated:%}
-    <a href="{{url_for('menu')}}">
-        <button>Start</button>
-    </a>
-<!--    Otherwise they must either login or register-->
-    {%else:%}
-    <a href="{{url_for('login')}}">
-        <button>Login!</button>
-    </a>
+<div class="container d-flex justify-content-center align-items-center vh-100">
 
-    <a href="{{url_for('register')}}">
-        <button>Register</button>
-    </a>
-    {%endif%}
-    <p>Ask and answer questions that lead to deeper connections</p>
+    <div class="start-menu text-center">
+    <h1 class="display-5 fw-semibold menu-text">Ask and Connect</h1>
+    <h3 class="fw-semibold menu-text">3 - Levels</h3>
+<!--    If account already logged in they can start-->
+        <div>
+            {%if current_user.is_authenticated:%}
+            <a href="{{url_for('sessions')}}"  class="btn btn-start mx-2">Start</a>
+        <!--    Otherwise they must either login or register-->
+            {%else:%}
+            <a href="{{url_for('login')}}" class="btn btn-start mx-2">Login!</a>
+
+            <a href="{{url_for('register')}}" class="btn btn-start mx-2">Register!</a>
+            {%endif%}
+            <p class="text">Ask and answer questions that lead to deeper connections</p>
+        </div>
+    </div>
 </div>
+
 {% endblock %}

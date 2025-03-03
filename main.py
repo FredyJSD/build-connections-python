@@ -220,15 +220,59 @@ def sessions():
     return render_template('sessions.html')
 
 
-@app.route('/new-session')
+@app.route('/new-session', methods=["GET", "POST"])
 def create_session():
     form = NewSession()
+    if form.validate_on_submit():
+        session_name = form.session_name.data
+        current_user_id = current_user.id
+        invited_user = form.invite.data
+        if invited_user:
+            result = db.session.execute(db.select(Users).where(Users.email == invited_user)).scalar()
+            if result:
+                new_session = GameSession(
+                    name=session_name
+                )
+                db.session.add(new_session)
+                creator_session_link = GameSessionUsers(
+                    session_id=new_session.id,
+                    user_id=current_user_id
+                )
+                db.session.add(creator_session_link)
+                invited_session_link = GameSessionUsers(
+                    session_id=new_session.id,
+                    user_id=result.id
+                )
+                db.session.add(invited_session_link)
+                db.session.commit()
+                return redirect(url_for("sessions"))
+            else:
+                flash("User email does not exist", "danger")
+                return redirect(url_for("create_session"))
+        else:
+            new_session = GameSession(
+                name=session_name
+            )
+            db.session.add(new_session)
+            creator_session_link = GameSessionUsers(
+                session_id=new_session.id,
+                user_id=current_user_id
+            )
+            db.session.add(creator_session_link)
+            db.session.commit()
+            return redirect(url_for("sessions"))
+
     return render_template('create_session.html', form=form)
 
 @app.route('/new-question')
 def new_question():
     form = NewQuestion()
     return render_template('new_question.html', form=form)
+
+@app.route('/user-menu')
+def user_menu():
+    return render_template('user-question-menu.html')
+
 
 @app.route('/icebreaker')
 def icebreaker():
@@ -269,6 +313,11 @@ def user_questions():
     questions_list = [{"text": q.text} for q in deep_questions]
     return render_template('user_questions.html', questions=questions_list)
 
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for("home"))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)

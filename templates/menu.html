@@ -9,7 +9,7 @@
 
 {% block content %}
 <div class="container text-center">
-    <h1>Select Difficulty</h1>
+    <h2 class="mb-4 mt-5  text-wrap text-break">Select Level</h2>
     <div class="main-menu ">
         <div class="row justify-content-center">
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
@@ -29,8 +29,8 @@
             </div>
 <!--            If the user is logged in. Their other questions will appear-->
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
-                <form action="/user_questions" method="get" class="d-flex flex-column w-100">
-                    <button class="btn other btn-custom w-100 flex-grow-1" name="deep-button" value="deep-button">Deep</button>
+                <form action="/user-menu" method="get" class="d-flex flex-column w-100">
+                    <button class="btn other btn-custom w-100 flex-grow-1" name="your-button" value="your-button">Your Questions</button>
                 </form>
             </div>
         </div>

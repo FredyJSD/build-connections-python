@@ -14,6 +14,8 @@ body {
 .login-body { background-image: url("/static/assets/img/leaf.jpg"); }
 .sessions-body { background-image: url("/static/assets/img/sessions.jpg"); }
 .new-question-body { background-image: url("/static/assets/img/new_question.jpg"); }
+.user-menu-body { background-image: url("/static/assets/img/new_question.jpg"); }
+
 
 /*Card Styling*/
 .card{

@@ -1,0 +1,29 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% extends "base.html" %}
+
+{% block title %}New Question{% endblock %}
+{% block stylesheet %}
+{{ bootstrap.load_css() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+{% endblock%}
+{% block body_class %}user-menu-body{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <div class="new-question-card shadow-lg p-4 mt-5">
+        <h1 class="my-3 pb-4 sessions-header">Your Menu</h1>
+        <div class="sessions-gallery w-100 justify-content-center flex-column">
+<!--            If user has more than 0 question questions-->
+            <a href="{{url_for('user_questions')}}" style="text-decoration:none;">
+                <button class="new-question-button option-button py-4 w-auto">View Questions</button>
+            </a>
+            <a href="{{url_for('new_question')}}" style="text-decoration:none;">
+                <button class="new-question-button option-button py-4 w-auto">Add Question</button>
+            </a>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+{% endblock %}
