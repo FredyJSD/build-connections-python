@@ -17,6 +17,13 @@
             <form method="POST">
                 {{ form.hidden_tag() }}
                 <div class="session-form mb-3">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <p class="flash ">{{ message }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
                     {{form.session_name.label}}
                     {{ form.session_name(class="form-control mb-3", placeholder="New Session Name") }}
                     {{form.invite.label}}

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, TextAreaField
-from wtforms.validators import DataRequired, URL, Email, Length
+from wtforms.validators import DataRequired, URL, Email, Length, Optional
 from flask_ckeditor import CKEditorField
 
 
@@ -19,7 +19,7 @@ class LoginForm(FlaskForm):
 
 class NewSession(FlaskForm):
     session_name = StringField("Name", validators=[DataRequired()])
-    invite = StringField("Invite User", validators=[Email()])
+    invite = StringField("Invite User", validators=[Optional(), Email()])
     submit = SubmitField("Add Session!")
 
 

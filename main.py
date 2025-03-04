@@ -5,7 +5,7 @@ from flask import Flask, render_template, flash, redirect, url_for
 import json
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
-from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user
+from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user, login_required
 from flask_wtf import CSRFProtect
 from sqlalchemy import Integer, String, Text, Boolean, DateTime
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
@@ -84,6 +84,7 @@ class UserQuestionProgress(db.Model):
     user = relationship("Users", back_populates="progress")
     question = relationship("Questions", back_populates="progress")
     session = relationship("GameSession", back_populates="progress")
+
 
 class GameSessionUsers(db.Model):
     __tablename__ = "game_session_users"
@@ -217,52 +218,48 @@ def login():
 
 @app.route('/sessions')
 def sessions():
-    return render_template('sessions.html')
+    result = db.session.execute(
+        db.select(GameSession).join(GameSessionUsers).where(GameSessionUsers.user_id == current_user.id)
+    )
+    game_sessions = result.scalars().all()
+    return render_template('sessions.html', game_sessions=game_sessions)
 
 
+@login_required
 @app.route('/new-session', methods=["GET", "POST"])
 def create_session():
     form = NewSession()
     if form.validate_on_submit():
         session_name = form.session_name.data
-        current_user_id = current_user.id
-        invited_user = form.invite.data
-        if invited_user:
-            result = db.session.execute(db.select(Users).where(Users.email == invited_user)).scalar()
-            if result:
-                new_session = GameSession(
-                    name=session_name
-                )
-                db.session.add(new_session)
-                creator_session_link = GameSessionUsers(
-                    session_id=new_session.id,
-                    user_id=current_user_id
-                )
-                db.session.add(creator_session_link)
-                invited_session_link = GameSessionUsers(
-                    session_id=new_session.id,
-                    user_id=result.id
-                )
-                db.session.add(invited_session_link)
-                db.session.commit()
-                return redirect(url_for("sessions"))
-            else:
+        invited_user_email = form.invite.data
+        invited_user = None
+        if invited_user_email:
+            invited_user = db.session.execute(db.select(Users).where(Users.email == invited_user_email)).scalar()
+            if not invited_user:
                 flash("User email does not exist", "danger")
-                return redirect(url_for("create_session"))
-        else:
-            new_session = GameSession(
-                name=session_name
-            )
-            db.session.add(new_session)
-            creator_session_link = GameSessionUsers(
+                return render_template("create_session.html", form=form)
+        new_session = GameSession(name=session_name)
+        db.session.add(new_session)
+        db.session.commit()
+        creator_session_link = GameSessionUsers(
+            session_id=new_session.id,
+            user_id=current_user.id
+        )
+        db.session.add(creator_session_link)
+        if invited_user:
+            invited_session_link = GameSessionUsers(
                 session_id=new_session.id,
-                user_id=current_user_id
+                user_id=invited_user.id
             )
-            db.session.add(creator_session_link)
-            db.session.commit()
-            return redirect(url_for("sessions"))
+            db.session.add(invited_session_link)
+        db.session.commit()
+        return redirect(url_for("sessions"))
+    else:
+        print("Form validation failed!")  # Debugging statement
+        print("Errors:", form.errors)  # Check validation errors
 
     return render_template('create_session.html', form=form)
+
 
 @app.route('/new-question')
 def new_question():
