@@ -18,12 +18,12 @@
 
         <div class="d-flex justify-content-center align-items-center mt-3 gap-3">
             <button class="btn btn-custom prev-button mx-2" onclick="previousQuestion()">&#x2190; Prev</button>
-
+            {%if session_id%}
             <form action="/answered" method="get" class="d-flex flex-column align-items-center">
                 <label class="form-check-label fw-bold" for="answeredCheckbox">Answered</label>
                 <input class="form-check-input custom-checkbox" type="checkbox" id="answeredCheckbox" value="answered">
             </form>
-
+            {%endif%}
             <button class="btn btn-custom next-button mx-2" onclick="nextQuestion()">Next &#x2192;</button>
         </div>
 

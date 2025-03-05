@@ -45,7 +45,6 @@ class Users(UserMixin, db.Model):
 
     # relationships
     questions = relationship("Questions", back_populates="creator", cascade="all, delete-orphan")
-    progress = relationship("UserQuestionProgress", back_populates="user", cascade="all, delete-orphan")
     session_associations = relationship("GameSessionUsers", back_populates="user", cascade="all, delete-orphan")
 
 
@@ -77,11 +76,10 @@ class UserQuestionProgress(db.Model):
     session_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("game_sessions.id", ondelete="CASCADE"),
                                             nullable=False)
     answered: Mapped[bool] = mapped_column(Boolean, nullable=False)
-    user_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     question_id: Mapped[int] = mapped_column(Integer, db.ForeignKey("questions.id", ondelete="CASCADE"), nullable=False)
+    question_level: Mapped[str] = mapped_column(String(20), nullable=False)
 
     # relationships
-    user = relationship("Users", back_populates="progress")
     question = relationship("Questions", back_populates="progress")
     session = relationship("GameSession", back_populates="progress")
 
@@ -169,11 +167,6 @@ def home():
     return render_template('index.html', current_user=current_user)
 
 
-@app.route('/menu')
-def menu():
-    return render_template('menu.html')
-
-
 @app.route('/register', methods=["GET", "POST"])
 def register():
     form = RegisterForm()
@@ -253,12 +246,43 @@ def create_session():
             )
             db.session.add(invited_session_link)
         db.session.commit()
+
+        questions_result = db.session.execute(
+            db.select(Questions).where((Questions.created_by == 1) | (Questions.created_by == current_user.id))
+        ).scalars().all()
+
+        for question in questions_result:
+            new_user_question_progress = UserQuestionProgress(
+                session_id=new_session.id,
+                answered=False,
+                question_id=question.id,
+                question_level=question.level
+            )
+            db.session.add(new_user_question_progress)
+
+        db.session.commit()
         return redirect(url_for("sessions"))
     else:
         print("Form validation failed!")  # Debugging statement
         print("Errors:", form.errors)  # Check validation errors
 
     return render_template('create_session.html', form=form)
+
+
+@app.route("/delete/<int:session_id>")
+def delete_session(session_id):
+    session_to_delete = db.get_or_404(GameSession, session_id)
+    db.session.delete(session_to_delete)
+    db.session.commit()
+    return redirect(url_for('sessions'))
+
+
+@app.route('/menu')
+@app.route('/menu/<int:session_id>')
+def menu(session_id=None):
+    if session_id:
+        return render_template('menu.html', session_id=session_id)
+    return render_template('menu.html')
 
 
 @app.route('/new-question')
@@ -272,13 +296,26 @@ def user_menu():
 
 
 @app.route('/icebreaker')
-def icebreaker():
+@app.route('/icebreaker/<int:session_id>')
+def icebreaker(session_id=None):
+    if session_id:
+        result = db.session.execute(
+            db.select(Questions.text).join(UserQuestionProgress).filter(
+                (UserQuestionProgress.question_level == "ice breaker") | (UserQuestionProgress.session_id == session_id)
+            )
+        )
+        ice_questions = result.scalars().all()
+        questions_list = [{"text": q} for q in ice_questions]
+        print(f"Session ID being passed to template: {session_id}")
+        return render_template('ice.html', questions=questions_list, session_id=session_id)
+
     result = db.session.execute(
         db.select(Questions).filter(Questions.created_by == 1, Questions.level == "ice breaker")
     )
     ice_questions = result.scalars().all()
     questions_list = [{"text": q.text} for q in ice_questions]
-    return render_template('ice.html', questions=questions_list)
+    print(f"No session ID being passed")
+    return render_template('ice.html', questions=questions_list, session_id=session_id)
 
 
 @app.route('/confess')
@@ -317,4 +354,4 @@ def logout():
     return redirect(url_for("home"))
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5002)

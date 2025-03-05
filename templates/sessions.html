@@ -16,41 +16,13 @@
             {%for session in game_sessions:%}
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="session-item">
-                    <button class="session-button">{{session.name}}</button>
-                    <a href="#">✖</a>
+                    <a href="{{url_for('menu', session_id=session.id)}}">
+                        <button class="session-button">{{session.name}}</button>
+                    </a>
+                    <a href="{{url_for('delete_session', session_id=session.id)}}">✖</a>
                 </div>
             </div>
             {%endfor%}
-<!--            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">-->
-<!--                <div class="session-item">-->
-<!--                    <button class="session-button">Session 2</button>-->
-<!--                    <a href="#">✖</a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">-->
-<!--                <div class="session-item">-->
-<!--                    <button class="session-button">Session 3</button>-->
-<!--                    <a href="#">✖</a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">-->
-<!--                <div class="session-item">-->
-<!--                    <button class="session-button">Session 4</button>-->
-<!--                    <a href="#">✖</a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">-->
-<!--                <div class="session-item">-->
-<!--                    <button class="session-button">Session 5</button>-->
-<!--                    <a href="#">✖</a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">-->
-<!--                <div class="session-item">-->
-<!--                    <button class="session-button">Session 6</button>-->
-<!--                    <a href="#">✖</a>-->
-<!--                </div>-->
-<!--            </div>-->
         </div>
     </div>
 
