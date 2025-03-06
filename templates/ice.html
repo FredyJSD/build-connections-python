@@ -19,7 +19,7 @@
         <div class="d-flex justify-content-center align-items-center mt-3 gap-3">
             <button class="btn btn-custom prev-button mx-2" onclick="previousQuestion()">&#x2190; Prev</button>
             {%if session_id%}
-            <form action="/answered" method="get" class="d-flex flex-column align-items-center">
+            <form action="/answered" method="POST" class="d-flex flex-column align-items-center">
                 <label class="form-check-label fw-bold" for="answeredCheckbox">Answered</label>
                 <input class="form-check-input custom-checkbox" type="checkbox" id="answeredCheckbox" value="answered">
             </form>
@@ -30,14 +30,16 @@
 
         <div class="d-flex justify-content-md-between justify-content-center mt-4 flex-wrap gap-3">
             <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch">
-                <form action="/deep" method="get" class="d-flex flex-column w-100">
+                <a href="{{ url_for('deep', session_id=session_id) if session_id else url_for('deep') }}"
+                   class="d-flex flex-column w-100" style="text-decoration:none; color:white">
                     <button class="btn btn-custom deep-button w-100 flex-grow-1">Deep</button>
-                </form>
+                </a>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 d-flex align-items-stretch">
-                <form action="/confess" method="get" class="d-flex flex-column w-100">
+                <a href="{{ url_for('icebreaker', session_id=session_id) if session_id else url_for('confess') }}"
+                   class="d-flex flex-column w-100" style="text-decoration:none; color:white">
                     <button class="btn btn-custom confess-button w-100 flex-grow-1">Confess</button>
-                </form>
+                </a>
             </div>
         </div>
 
@@ -74,5 +76,18 @@
             }
         }
 
+    document.querySelector('#answeredCheckbox').addEventListener('change', function() {
+        var checked = this.checked ? 1 : 0;
+
+        fetch('/update_answered', {
+            method = 'POST',
+            headers = { 'Content-Type': 'application/json' },
+            body = JSON.stringify({ answered = checked })
+        })
+        .then(response => response.json())
+        .then(data => console.log('Updated:', data))
+        .catch(error => console.error('Error:', error));
+
+    });
   </script>
 {% endblock %}

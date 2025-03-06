@@ -21,7 +21,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
-                <a href="{{ url_for('confess', session_id=session_id) }}"
+                <a href="{{ url_for('confess', session_id=session_id) if session_id else url_for('confess') }}"
                    class="d-flex flex-column w-100" style="text-decoration:none; color:white">
                     <button class="btn confess btn-custom w-100 flex-grow-1" name="confess-button" value="confess-button">
                         Confess
@@ -29,7 +29,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
-                <a href="/deep{% if session_id %}?session_id={{ session_id }}{% endif %}"
+                <a href="{{ url_for('deep', session_id=session_id) if session_id else url_for('deep') }}"
                    class="d-flex flex-column w-100" style="text-decoration:none; color:white">
                     <button class="btn deep btn-custom w-100 flex-grow-1" name="deep-button" value="deep-button">
                         Deep
