@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from datetime import datetime
-from flask import Flask, render_template, flash, redirect, url_for
+from flask import Flask, render_template, flash, redirect, url_for, request, jsonify
 import json
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
@@ -300,12 +300,19 @@ def user_menu():
 def icebreaker(session_id=None):
     if session_id:
         result = db.session.execute(
-            db.select(Questions.text).join(UserQuestionProgress)
+            db.select(
+                Questions.text, UserQuestionProgress.question_id, UserQuestionProgress.answered
+            ).join(UserQuestionProgress)
             .filter(UserQuestionProgress.question_level == "ice breaker")
             .filter(UserQuestionProgress.session_id == session_id)
         )
-        ice_questions = result.scalars().all()
-        questions_list = [{"text": q} for q in ice_questions]
+        ice_questions = result.all()
+        questions_list = [{
+            "text": q.text,
+            "question_id": q.question_id,
+            "answered": q.answered
+        } for q in ice_questions]
+        print(f"questions_list: {questions_list}")
         print(f"Session ID being passed to template: {session_id}")
         return render_template('ice.html', questions=questions_list, session_id=session_id)
 
@@ -371,6 +378,27 @@ def user_questions():
     questions_list = [{"text": q.text} for q in deep_questions]
     return render_template('user_questions.html', questions=questions_list)
 
+
+@csrf.exempt
+@app.route('/update_answered', methods=["POST"])
+def update_answer():
+    print("Answering Question")
+    data = request.get_json()
+    session_id = data.get("session_id")
+    question_id = data.get("question_id")
+    answered = bool(data.get("answered"))
+
+    result = db.session.execute(db.select(UserQuestionProgress)
+                                  .filter(UserQuestionProgress.session_id == session_id)
+                                  .filter(UserQuestionProgress.question_id == question_id))
+
+    progress = result.scalar()
+    if progress:
+        progress.answered = answered
+        db.session.commit()
+        return jsonify({"status": "success", "message": "Answer updated successfully."})
+    else:
+        return jsonify({"status": "error", "message": "Progress record not found."}), 404
 
 @app.route('/logout')
 def logout():
