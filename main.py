@@ -301,8 +301,8 @@ def icebreaker(session_id=None):
     if session_id:
         result = db.session.execute(
             db.select(
-                Questions.text, UserQuestionProgress.question_id, UserQuestionProgress.answered
-            ).join(UserQuestionProgress)
+                Questions.text, UserQuestionProgress.question_id, UserQuestionProgress.answered)
+            .join(UserQuestionProgress)
             .filter(UserQuestionProgress.question_level == "ice breaker")
             .filter(UserQuestionProgress.session_id == session_id)
         )
@@ -312,7 +312,6 @@ def icebreaker(session_id=None):
             "question_id": q.question_id,
             "answered": q.answered
         } for q in ice_questions]
-        print(f"questions_list: {questions_list}")
         print(f"Session ID being passed to template: {session_id}")
         return render_template('ice.html', questions=questions_list, session_id=session_id)
 
@@ -330,12 +329,17 @@ def icebreaker(session_id=None):
 def confess(session_id=None):
     if session_id:
         result = db.session.execute(
-            db.select(Questions.text).join(UserQuestionProgress)
+            db.select(Questions.text, UserQuestionProgress.question_id, UserQuestionProgress.answered)
+            .join(UserQuestionProgress)
             .filter(UserQuestionProgress.question_level == "confess")
             .filter(UserQuestionProgress.session_id == session_id)
         )
-        confess_questions = result.scalars().all()
-        questions_list = [{"text": q} for q in confess_questions]
+        confess_questions = result.all()
+        questions_list = [{
+            "text": q.text,
+            "question_id": q.question_id,
+            "answered": q.answered
+        } for q in confess_questions]
         print(f"Session ID being passed to template: {session_id}")
         return render_template('confess.html', questions=questions_list, session_id=session_id)
 
@@ -352,12 +356,17 @@ def confess(session_id=None):
 def deep(session_id=None):
     if session_id:
         result = db.session.execute(
-            db.select(Questions.text).join(UserQuestionProgress)
+            db.select(Questions.text, UserQuestionProgress.question_id, UserQuestionProgress.answered)
+            .join(UserQuestionProgress)
             .filter(UserQuestionProgress.question_level == "deep")
             .filter(UserQuestionProgress.session_id == session_id)
         )
-        deep_questions = result.scalars().all()
-        questions_list = [{"text": q} for q in deep_questions]
+        deep_questions = result.all()
+        questions_list = [{
+            "text": q.text,
+            "question_id": q.question_id,
+            "answered": q.answered
+        } for q in deep_questions]
         print(f"Session ID being passed to template: {session_id}")
         return render_template('deep.html', questions=questions_list, session_id=session_id)
 

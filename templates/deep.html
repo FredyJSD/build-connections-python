@@ -19,7 +19,7 @@
         <div class="d-flex justify-content-center align-items-center mt-3 gap-3">
             <button class="btn btn-custom prev-button mx-2" onclick="previousQuestion()">&#x2190; Prev</button>
             {%if session_id%}
-            <form action="/answered" method="get" class="d-flex flex-column align-items-center">
+            <form action="/answered" method="POST" class="d-flex flex-column align-items-center">
                 <label class="form-check-label fw-bold" for="answeredCheckbox">Answered</label>
                 <input class="form-check-input custom-checkbox" type="checkbox" id="answeredCheckbox" value="answered">
             </form>
@@ -49,15 +49,21 @@
 <script>
         let questions = {{ questions | tojson | safe }};
         let index = 0;
+        let session_id = {{ session_id }};
 
         function updateQuestion(){
             const questionText = document.querySelector('.question-text');
             questionText.innerText = questions[index].text;
+            const checkBox = document.querySelector('.form-check-input')
+            checkBox.checked = questions[index].answered
         }
 
         function previousQuestion(){
             if(index > 0){
                 index--;
+                updateQuestion();
+            }else{
+                index = questions.length - 1
                 updateQuestion();
             }
         }
@@ -66,16 +72,43 @@
             if(index < questions.length - 1){
                 index++;
                 updateQuestion();
+            }else{
+                index = 0
             }
         }
 
         window.onload = function() {
             if (questions.length > 0) {
+                while(questions[index].answered == 1 && index < questions.length - 1){
+                    index++;
+                }
                 updateQuestion();
             } else {
                 document.querySelector('.question-text').innerText = "No icebreaker questions available.";
             }
         }
+
+        document.querySelector('#answeredCheckbox').addEventListener('change', function() {
+            var checked = this.checked ? 1 : 0;
+            console.log({
+                question_id: questions[index].question_id,
+                answered: checked,
+                session_id: session_id
+            });
+            fetch('/update_answered', {
+                method : 'POST',
+                headers : { 'Content-Type': 'application/json' },
+                body : JSON.stringify({
+                    question_id: questions[index].question_id,
+                    answered : checked,
+                    session_id : session_id
+                })
+            })
+            .then(response => response.json())
+            .then(data => console.log('Updated:', data))
+            .catch(error => console.error('Error:', error));
+            questions[index].answered = checked;
+        });
 
 </script>
 {% endblock %}
