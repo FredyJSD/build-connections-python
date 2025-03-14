@@ -61,6 +61,9 @@
             if(index > 0){
                 index--;
                 updateQuestion();
+            }else{
+                index = questions.length - 1
+                updateQuestion();
             }
         }
 
@@ -68,11 +71,16 @@
             if(index < questions.length - 1){
                 index++;
                 updateQuestion();
+            }else{
+                index = 0
             }
         }
 
         window.onload = function() {
             if (questions.length > 0) {
+                while(questions[index].answered == 1 && index < questions.length - 1){
+                    index++;
+                }
                 updateQuestion();
             } else {
                 document.querySelector('.question-text').innerText = "No icebreaker questions available.";
