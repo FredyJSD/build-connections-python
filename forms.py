@@ -26,3 +26,8 @@ class NewSession(FlaskForm):
 class NewQuestion(FlaskForm):
     question = TextAreaField("New Question", render_kw={"rows": 3, "cols": 40}, validators=[DataRequired()])
     submit = SubmitField("Add Question!")
+
+
+class RequestReset(FlaskForm):
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    submit = SubmitField("Reset Password!")

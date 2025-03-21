@@ -1,4 +1,4 @@
-import os
+import secrets, time, os
 from dotenv import load_dotenv
 from datetime import datetime
 from flask import Flask, render_template, flash, redirect, url_for, request, jsonify
@@ -11,11 +11,22 @@ from sqlalchemy import Integer, String, Text, Boolean, DateTime
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import RegisterForm, LoginForm, NewSession, NewQuestion
+from forms import RegisterForm, LoginForm, NewSession, NewQuestion, RequestReset
+from flask_mail import Mail, Message
 
 load_dotenv()
 
 app = Flask(__name__)
+
+# configuration of mail
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
+
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 ckeditor = CKEditor(app)
 csrf = CSRFProtect(app)
@@ -207,6 +218,35 @@ def login():
             return redirect(url_for('login'))
 
     return render_template("login.html", form=form)
+
+
+@login_required
+@app.route('/reset', methods=["GET", "POST"])
+def reset_password():
+    form = RequestReset()
+    if form.validate_on_submit():
+        email = form.email.data
+        result = db.session.execute(db.select(Users).where(Users.email == email))
+        user = result.scalar()
+        if user:
+            secret_key = secrets.token_urlsafe(16)
+            end_time = time.time() + 900
+            user.reset_token = secret_key
+            user.reset_token_expiry = end_time
+            db.session.commit()
+            msg = Message(
+                f'Use this code to reset your password. {secret_key}',
+                sender=os.environ.get('MAIL_USERNAME'),
+                recipients=[user.email],
+            )
+            msg.body = f'Use this code to reset your password. {secret_key}'
+            mail.send(msg)
+            flash("A reset link has been sent to your email.", "info")
+            return redirect(url_for('login'))
+        else:
+            flash("Email Does Not Exist", "danger")
+            return redirect(url_for('login'))
+    return render_template("request_reset.html", form=form)
 
 
 @app.route('/sessions')
