@@ -11,7 +11,7 @@ from sqlalchemy import Integer, String, Text, Boolean, DateTime
 from sqlalchemy.orm import relationship, DeclarativeBase, Mapped, mapped_column
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from forms import RegisterForm, LoginForm, NewSession, NewQuestion, RequestReset
+from forms import RegisterForm, LoginForm, NewSession, NewQuestion, RequestReset, ResetPasswordForm
 from flask_mail import Mail, Message
 
 load_dotenv()
@@ -220,7 +220,6 @@ def login():
     return render_template("login.html", form=form)
 
 
-@login_required
 @app.route('/reset', methods=["GET", "POST"])
 def reset_password():
     form = RequestReset()
@@ -234,12 +233,13 @@ def reset_password():
             user.reset_token = secret_key
             user.reset_token_expiry = end_time
             db.session.commit()
+            reset_link = url_for('reset_token_route', token=secret_key, _external=True)
             msg = Message(
                 f'Use this code to reset your password. {secret_key}',
                 sender=os.environ.get('MAIL_USERNAME'),
                 recipients=[user.email],
             )
-            msg.body = f'Use this code to reset your password. {secret_key}'
+            msg.body = f'Click the link to reset your password: {reset_link}'
             mail.send(msg)
             flash("A reset link has been sent to your email.", "info")
             return redirect(url_for('login'))
@@ -247,6 +247,25 @@ def reset_password():
             flash("Email Does Not Exist", "danger")
             return redirect(url_for('login'))
     return render_template("request_reset.html", form=form)
+
+
+@app.route("/reset-password/<token>", methods=["GET", "POST"])
+def reset_token_route(token):
+    form = ResetPasswordForm()
+    user = db.session.execute(db.select(Users).where(Users.reset_token == token)).scalar()
+    if user and (user.reset_token_expiry > datetime.utcnow()):
+        if form.validate_on_submit():
+            user.password = hash_password(form.password.data)
+            user.reset_token = None
+            user.reset_token_expiry = None
+            db.session.commit()
+            flash("Your password has been reset.", "success")
+            return redirect(url_for('login'))
+
+        return render_template("reset_password.html", form=form)
+    else:
+        flash("Token Invalid!", "danger")
+        return redirect(url_for('login'))
 
 
 @app.route('/sessions')
