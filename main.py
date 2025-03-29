@@ -1,6 +1,6 @@
 import secrets, time, os
 from dotenv import load_dotenv
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import Flask, render_template, flash, redirect, url_for, request, jsonify
 import json
 from flask_bootstrap import Bootstrap5
@@ -229,9 +229,8 @@ def reset_password():
         user = result.scalar()
         if user:
             secret_key = secrets.token_urlsafe(16)
-            end_time = time.time() + 900
             user.reset_token = secret_key
-            user.reset_token_expiry = end_time
+            user.reset_token_expiry = datetime.utcnow() + timedelta(minutes=15)
             db.session.commit()
             reset_link = url_for('reset_token_route', token=secret_key, _external=True)
             msg = Message(
