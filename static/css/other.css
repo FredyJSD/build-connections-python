@@ -7,7 +7,7 @@ body {
     background-position: center;
     background-attachment: fixed;
     display: flex;
-    align-items: center;
+/*    align-items: center; */
     margin: 0;
     color: white;
     font-family: 'Montserrat', Arial, Helvetica, sans-serif;
@@ -18,6 +18,36 @@ body {
 .confess-body{background-image: url("/static/assets/img/Confess.jpg");}
 .deep-body{background-image: url("/static/assets/img/ocean.jpg");}
 .user-question-body{background-image: url("/static/assets/img/user_questions.jpg")}
+
+
+/* App Header*/
+.page-header {
+    margin-top: 3rem;
+}
+
+.page-header h1 {
+    color: white;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+    letter-spacing: 1px;
+}
+
+.page-header a{
+    cursor: pointer;
+}
+
+.page-header .btn {
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 8px;
+    padding: 0.4rem 1rem;
+    background-color: #8ea7b8b7;
+    transition: background-color 0.3s ease;
+}
+
+.page-header .btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
 
 /* Card Container*/
 .card-menu{

@@ -8,42 +8,53 @@
 {% block body_class %}menu-body{% endblock %}
 
 {% block content %}
+
 <div class="container text-center">
-    <h2 class="mb-4 mt-5  text-wrap text-break">Select Level</h2>
-    <div class="main-menu ">
-        <div class="row justify-content-center">
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
-                <a href="{{ url_for('icebreaker', session_id=session_id) if session_id else url_for('icebreaker') }}"
-                   class="d-flex flex-column w-100" style="text-decoration:none; color:white">
-                    <button class="btn ice btn-custom w-100 flex-grow-1" name="ice-button" value="ice-button">
-                        Ice Breaker
-                    </button>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
-                <a href="{{ url_for('confess', session_id=session_id) if session_id else url_for('confess') }}"
-                   class="d-flex flex-column w-100" style="text-decoration:none; color:white">
-                    <button class="btn confess btn-custom w-100 flex-grow-1" name="confess-button" value="confess-button">
-                        Confess
-                    </button>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
-                <a href="{{ url_for('deep', session_id=session_id) if session_id else url_for('deep') }}"
-                   class="d-flex flex-column w-100" style="text-decoration:none; color:white">
-                    <button class="btn deep btn-custom w-100 flex-grow-1" name="deep-button" value="deep-button">
-                        Deep
-                    </button>
-                </a>
-            </div>
-<!--            If the user is logged in. Their other questions will appear-->
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
-                <a href="/deep{% if session_id %}?session_id={{ session_id }}{% endif %}"
-                   class="d-flex flex-column w-100" style="text-decoration:none; color:white">
-                    <button class="btn other btn-custom w-100 flex-grow-1" name="your-button" value="your-button">
-                        Your Questions
-                    </button>
-                </a>
+    <div class="page-header text-center mb-4">
+         <a href="{{ url_for('home') }}" class="text-decoration-none">
+            <h1 class="display-5 fw-bold mb-3">Build Connections</h1>
+        </a>
+        <a href="{{ back_url or url_for('menu') }}" class="btn btn-outline-light btn-sm">
+            ⬅ Back
+        </a>
+    </div>
+    <div class="d-flex justify-content-center align-items-center flex-column mb-5" style="margin-top: 10vh">
+    <h2 class="mb-4 text-wrap text-break">Select Level</h2>
+        <div class="main-menu">
+            <div class="row justify-content-center">
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
+                    <a href="{{ url_for('icebreaker', session_id=session_id) if session_id else url_for('icebreaker') }}"
+                       class="d-flex flex-column w-100" style="text-decoration:none; color:white">
+                        <button class="btn ice btn-custom w-100 flex-grow-1" name="ice-button" value="ice-button">
+                            Ice Breaker
+                        </button>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
+                    <a href="{{ url_for('confess', session_id=session_id) if session_id else url_for('confess') }}"
+                       class="d-flex flex-column w-100" style="text-decoration:none; color:white">
+                        <button class="btn confess btn-custom w-100 flex-grow-1" name="confess-button" value="confess-button">
+                            Confess
+                        </button>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
+                    <a href="{{ url_for('deep', session_id=session_id) if session_id else url_for('deep') }}"
+                       class="d-flex flex-column w-100" style="text-decoration:none; color:white">
+                        <button class="btn deep btn-custom w-100 flex-grow-1" name="deep-button" value="deep-button">
+                            Deep
+                        </button>
+                    </a>
+                </div>
+    <!--            If the user is logged in. Their other questions will appear-->
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
+                    <a href="/deep{% if session_id %}?session_id={{ session_id }}{% endif %}"
+                       class="d-flex flex-column w-100" style="text-decoration:none; color:white">
+                        <button class="btn other btn-custom w-100 flex-grow-1" name="your-button" value="your-button">
+                            Your Questions
+                        </button>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
