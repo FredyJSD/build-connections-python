@@ -14,10 +14,12 @@
         <h1 class="my-3 pb-4 sessions-header">Your Menu</h1>
         <div class="sessions-gallery w-100 justify-content-center flex-column">
 <!--            If user has more than 0 question questions-->
-            <a href="{{url_for('user_questions')}}" style="text-decoration:none;">
+            <a href="{{ url_for('user_questions', session_id=session_id) if session_id else url_for('user_questions') }}"
+               style="text-decoration:none;">
                 <button class="new-question-button option-button py-4 w-auto">View Questions</button>
             </a>
-            <a href="{{url_for('new_question')}}" style="text-decoration:none;">
+            <a href="{{ url_for('new_question', session_id=session_id) if session_id else url_for('new_question') }}"
+               style="text-decoration:none;">
                 <button class="new-question-button option-button py-4 w-auto">Add Question</button>
             </a>
         </div>

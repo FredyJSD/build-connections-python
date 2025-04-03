@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Select Difficulty{% endblock %}
+{% block title %}Select Level Menu{% endblock %}
 {% block stylesheet %}
     {{ bootstrap.load_css() }}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/other.css') }}">
@@ -14,7 +14,7 @@
          <a href="{{ url_for('home') }}" class="text-decoration-none">
             <h1 class="display-5 fw-bold mb-3">Build Connections</h1>
         </a>
-        <a href="{{ back_url or url_for('menu') }}" class="btn btn-outline-light btn-sm">
+        <a href="{{url_for('sessions') }}" class="btn btn-outline-light btn-sm">
             ⬅ Back
         </a>
     </div>
@@ -47,14 +47,16 @@
                     </a>
                 </div>
     <!--            If the user is logged in. Their other questions will appear-->
+                {% if current_user.is_authenticated %}
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex align-items-stretch">
-                    <a href="/deep{% if session_id %}?session_id={{ session_id }}{% endif %}"
+                    <a href="{{ url_for('user_menu', session_id=session_id) if session_id else url_for('user_menu') }}"
                        class="d-flex flex-column w-100" style="text-decoration:none; color:white">
                         <button class="btn other btn-custom w-100 flex-grow-1" name="your-button" value="your-button">
                             Your Questions
                         </button>
                     </a>
                 </div>
+                {%endif%}
             </div>
         </div>
     </div>

@@ -9,18 +9,22 @@
 {% block body_class %}start-body{% endblock %}
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center vh-100">
-
+     <div class="position-absolute top-0 end-0 m-3">
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('logout') }}" class="btn btn-outline-light btn-sm">Logout</a>
+        {% endif %}
+    </div>
     <div class="start-menu text-center">
     <h1 class="display-5 fw-semibold menu-text">Ask and Connect</h1>
     <h3 class="fw-semibold menu-text">3 - Levels</h3>
 <!--    If account already logged in they can start-->
+
         <div>
             {%if current_user.is_authenticated:%}
             <a href="{{url_for('sessions')}}"  class="btn btn-start mx-2">Start</a>
         <!--    Otherwise they must either login or register-->
             {%else:%}
             <a href="{{url_for('login')}}" class="btn btn-start mx-2">Login!</a>
-
             <a href="{{url_for('register')}}" class="btn btn-start mx-2">Register!</a>
             {%endif%}
             <p class="text">Ask and answer questions that lead to deeper connections</p>

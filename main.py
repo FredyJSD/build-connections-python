@@ -343,14 +343,28 @@ def menu(session_id=None):
     return render_template('menu.html')
 
 
-@app.route('/new-question')
-def new_question():
+@app.route('/new-question', methods=["GET", "POST"])
+@app.route('/new-question/<int:session_id>', methods=["GET", "POST"])
+@login_required
+def new_question(session_id=None):
     form = NewQuestion()
-    return render_template('new_question.html', form=form)
+    if form.validate_on_submit():
+        question_text = form.question.data
+        new_user_question = Questions(
+            level="user_question",
+            text=question_text,
+            created_by=current_user.id
+        )
+        db.session.add(new_user_question)
+        db.session.commit()
+        return redirect(url_for("user_menu", session_id=session_id))
+    return render_template('new_question.html', form=form, session_id=session_id)
+
 
 @app.route('/user-menu')
-def user_menu():
-    return render_template('user-question-menu.html')
+@app.route('/user-menu/<int:session_id>')
+def user_menu(session_id=None):
+    return render_template('user-question-menu.html', session_id=session_id)
 
 
 @app.route('/icebreaker')
@@ -437,13 +451,15 @@ def deep(session_id=None):
 
 
 @app.route('/user-questions')
-def user_questions():
+@app.route('/user-questions/<int:session_id>')
+@login_required
+def user_questions(session_id=None):
     result = db.session.execute(
-        db.select(Questions).filter(Questions.created_by == 1, Questions.level == "deep")
+        db.select(Questions).filter(Questions.created_by == current_user.id, Questions.level == "user_question")
     )
     deep_questions = result.scalars().all()
     questions_list = [{"text": q.text} for q in deep_questions]
-    return render_template('user_questions.html', questions=questions_list)
+    return render_template('user_questions.html', questions=questions_list, session_id=session_id)
 
 
 @csrf.exempt

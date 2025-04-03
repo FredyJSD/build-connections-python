@@ -13,7 +13,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card shadow-lg p-4 text-center">
-                <h2 class="text-center mb-4" style="color:white">Login!</h2>
+                <h2 class="mb-4" style="color:white">Login!</h2>
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
                       {% for message in messages %}
@@ -25,10 +25,10 @@
                     {{ form.hidden_tag() }}
                     {{ render_form(form, novalidate=True, button_map={"submit": "outline-light w-100"}) }}
                 </form>
-                <a class="text-center mt-3" style="color:white" href="{{url_for('reset_password')}}">
+                <a class="mt-3" style="color:white" href="{{url_for('reset_password')}}">
                     Reset Password
                 </a>
-                <p class="text-center mt-4" style="color:white">
+                <p class="mt-4" style="color:white">
                     Don't have an account?
                 </p>
                 <a class="btn btn-outline-light" href="{{ url_for('register') }}">Register here</a>.

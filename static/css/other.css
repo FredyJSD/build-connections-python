@@ -56,7 +56,7 @@ body {
     border: none
 }
 
-.card-menu h1{
+.card-menu h2{
     color: white;
     text-transform: uppercase;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);

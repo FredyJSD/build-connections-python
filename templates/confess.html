@@ -8,9 +8,17 @@
 {% block body_class %}confess-body{% endblock %}
 
 {% block content %}
-<div class="container text-center mt-5">
+<div class="container text-center mt-1">
+    <div class="page-header text-center mb-4">
+         <a href="{{ url_for('home') }}" class="text-decoration-none">
+            <h1 class="display-5 fw-bold mb-3">Build Connections</h1>
+        </a>
+    </div>
     <div class="card-menu">
-        <h1 class="mb-4">Confess</h1>
+        <a href="{{ url_for('menu', session_id=session_id) if session_id else url_for('menu') }}"
+           class="text-decoration-none">
+            <h2 class="mb-4">Confess</h2>
+        </a>
 
         <div class="card-container card-body confess-card">
             <p class="question-text"></p>
@@ -60,20 +68,19 @@
         function previousQuestion(){
             if(index > 0){
                 index--;
-                updateQuestion();
             }else{
                 index = questions.length - 1
-                updateQuestion();
             }
+            updateQuestion();
         }
 
         function nextQuestion(){
             if(index < questions.length - 1){
                 index++;
-                updateQuestion();
             }else{
                 index = 0
             }
+            updateQuestion();
         }
 
         window.onload = function() {

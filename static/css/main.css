@@ -1,7 +1,7 @@
 body{
     height: 100vh;
     text-align: center;
-    background-image: url("/static/assets/img/Background.jpg");
+    background-image: url("/static/assets/img/home.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -31,8 +31,9 @@ body{
 }
 
 .btn-start {
-    background-color: #e7ad6fd0; /* Warm Orange */
-    border: none;
+    background-color: #b7492c; /* Deep warm red */
+    backdrop-filter: blur(6px);
+    border: 2px solid rgba(255, 255, 255, 0.7);
     padding: 1.5rem 3.5rem;
     color: white;
     border-radius: 10px;
@@ -44,13 +45,12 @@ body{
     display: inline-block;
 }
 .btn-start:hover {
-    background-color: #feab52d0;
+    background-color: #8d301e;
     box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.6);
     transform: scale(1.1);
     mouse: pointer;
 }
 
 .btn-start:active {
-    background-color: #ce8436d0;
     transform: scale(1.05);
 }
