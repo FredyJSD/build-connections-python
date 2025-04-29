@@ -12,7 +12,9 @@
 
 <div class="container py-5 text-center">
     <div class="new-question-card shadow-lg p-4 mt-5">
-        <h1 class="my-3 pb-4 sessions-header">New Question</h1>
+        <a href="{{ url_for('user_menu') }}" class="text-decoration-none">
+            <h1 class="my-3 pb-4 sessions-header">New Question</h1>
+        </a>
         <div class="sessions-gallery">
             <form method="POST">
                 {{ form.hidden_tag() }}
