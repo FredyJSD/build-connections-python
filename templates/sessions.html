@@ -11,7 +11,11 @@
 
 <div class="container py-5 text-center">
     <div class="session-card shadow-lg p-4 mt-5">
-        <h1 class="my-3 pb-4 sessions-header">Sessions</h1>
+        <a href="{{ url_for('home') }}" class="text-decoration-none">
+            <h1 class="my-3 pb-4 sessions-header">
+                Sessions
+            </h1>
+        </a>
         <div class="sessions-gallery">
             {%for session in game_sessions:%}
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">

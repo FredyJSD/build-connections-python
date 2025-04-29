@@ -33,7 +33,6 @@ body{
 .btn-start {
     background-color: #b7492c; /* Deep warm red */
     backdrop-filter: blur(6px);
-    border: 2px solid rgba(255, 255, 255, 0.7);
     padding: 1.5rem 3.5rem;
     color: white;
     border-radius: 10px;
@@ -48,7 +47,6 @@ body{
     background-color: #8d301e;
     box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.6);
     transform: scale(1.1);
-    mouse: pointer;
 }
 
 .btn-start:active {

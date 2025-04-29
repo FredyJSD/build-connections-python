@@ -30,7 +30,7 @@ mail = Mail(app)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 ckeditor = CKEditor(app)
 csrf = CSRFProtect(app)
-Bootstrap5(app)
+bootstrap = Bootstrap5(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -234,13 +234,13 @@ def reset_password():
             db.session.commit()
             reset_link = url_for('reset_token_route', token=secret_key, _external=True)
             msg = Message(
-                f'Use this code to reset your password. {secret_key}',
+                f'Build Connections. Reset Password!',
                 sender=os.environ.get('MAIL_USERNAME'),
                 recipients=[user.email],
             )
             msg.body = f'Click the link to reset your password: {reset_link}'
             mail.send(msg)
-            flash("A reset link has been sent to your email.", "info")
+            flash("A reset link has been sent to your email if account exists.", "info")
             return redirect(url_for('login'))
         else:
             flash("Email Does Not Exist", "danger")
@@ -488,5 +488,11 @@ def logout():
     logout_user()
     return redirect(url_for("home"))
 
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5002)
+    app.run(debug=True, port=5003)

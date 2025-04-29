@@ -73,27 +73,26 @@ body {
 }
 
 .session-button:hover {
-    background: rgba(173, 216, 230, 0.3);
-    border-color: rgba(173, 216, 230, 0.8);
-    box-shadow: 0px 0px 7px rgba(173, 216, 230, 0.8);
+    background: rgba(84, 117, 150, 0.4);
+    box-shadow: 0px 4px 7px rgba(221, 246, 255, 0.8);
     transform: translateY(-3px);
 }
 
 .session-button:active {
     transform: scale(0.98);
-    box-shadow: 0px 0px 6px rgba(0, 191, 255, 0.5);
+    box-shadow: 0px 0px 5px rgba(221, 246, 255, 0.8);
 }
 
 /* New Question Page Button */
 .new-question-button {
     background: rgba(0, 60, 90, 0.4);
-    color: #e0f7fa;
-    box-shadow: 0px 4px 10px rgba(0, 60, 90, 0.4);
+    color: #ffffff;
+    box-shadow: 0px 4px 8px rgba(186, 232, 255, 0.4);
 }
 
 .new-question-button:hover {
-    background: rgba(50, 150, 200, 0.5);
-    box-shadow: 0px 0px 15px rgba(50, 150, 200, 0.6);
+    background: rgba(60, 174, 231, 0.4);
+    box-shadow: 0px 4px 10px rgba(234, 248, 255, 0.6);
     transform: translateY(-3px);
 }
 
@@ -126,8 +125,8 @@ body {
 .sessions-header{
     color: white;
     text-transform: uppercase;
-    text-shadow: 2px 2px 8px rgba(173, 216, 230, 0.5); /* Subtle glow */
-    letter-spacing: 2px; /* Slight spacing for a clean look */
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5); 
+    letter-spacing: 2px; 
     border-bottom: 2px solid rgba(173, 216, 230, 0.4); /* Underline */
 }
 
@@ -155,7 +154,7 @@ body {
 }
 
 .option-button{
-    border: 2px solid rgba(173, 216, 230, 0.5);
+    border: 2px solid rgba(173, 216, 230, 0.299);
     display: block;
     margin: .5rem auto;
 }

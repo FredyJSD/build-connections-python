@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Select Level Menu{% endblock %}
+{% block stylesheet %}
+    {{ bootstrap.load_css() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/other.css') }}">
+{% endblock%}
+{% block body_class %}not-found-body{% endblock %}
+
+{% block content %}
+
+<div class="container text-center mt-5">
+    <h1 class="display-3">404</h1>
+    <p class="lead">Oops! Page not found.</p>
+    <a href="{{ url_for('home') }}" class="btn btn-light mt-3">Back to Home</a>
+</div>
+
+{% endblock %}
