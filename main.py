@@ -150,18 +150,14 @@ def add_all_questions(admin_id: int):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return db.get_or_404(Users, user_id)
+    return db.session.get(Users, int(user_id)) #returns none if not found instead of 404
 
 
-# Function to load JSON data
-def load_json(question_file):
-    try:
-        file_path = os.path.join(DATA_DIR, f"{question_file}.json")  # Correct path resolution
-        with open(file_path, "r", encoding="utf-8") as file:
-            return json.load(file)
-    except Exception as err:
-        print(f"Error reading or parsing the JSON file: {err}")
-        raise
+@app.before_request
+def handle_stale_login():
+    if current_user.is_authenticated and current_user.is_anonymous:
+        logout_user()
+        return redirect(url_for("home")) 
 
 
 def hash_password(password):
@@ -293,6 +289,7 @@ def reset_token_route(token):
         return redirect(url_for('login'))
 
 
+@login_required
 @app.route('/sessions')
 def sessions():
     result = db.session.execute(
@@ -353,6 +350,7 @@ def create_session():
     return render_template('create_session.html', form=form)
 
 
+@login_required
 @app.route("/delete/<int:session_id>")
 def delete_session(session_id):
     session_to_delete = db.get_or_404(GameSession, session_id)
