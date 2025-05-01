@@ -173,35 +173,11 @@ def verify_password(hashed_password, password):
     return check_password_hash(hashed_password, password)
 
 
-# @app.route('/')
-# def home():
-#     db.create_all()
-#     add_all_questions(1)
-#     return render_template('index.html', current_user=current_user)
 @app.route('/')
 def home():
     db.create_all()
-
-    # Check if admin user exists
-    admin_user = Users.query.get(1)
-    if not admin_user:
-        admin_user = Users(
-            id=1,
-            name="Admin",
-            email="admin@example.com",
-            password="hashed-or-temp-password",  # Replace with a hashed password in real use
-            reset_token=None,
-            reset_token_expiry=None
-        )
-        db.session.add(admin_user)
-        db.session.commit()
-
-    # Add questions only if none exist (prevent duplicates)
-    if not Questions.query.first():
-        add_all_questions(admin_user.id)
-
+    add_all_questions(1)
     return render_template('index.html', current_user=current_user)
-
 
 
 @app.route('/register', methods=["GET", "POST"])
