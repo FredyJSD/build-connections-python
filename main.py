@@ -2,7 +2,6 @@ import secrets, time, os
 from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from flask import Flask, render_template, flash, redirect, url_for, request, jsonify
-import json
 from flask_bootstrap import Bootstrap5
 from flask_ckeditor import CKEditor
 from flask_login import UserMixin, login_user, LoginManager, current_user, logout_user, login_required
@@ -49,7 +48,7 @@ db.init_app(app)
 
 class Users(UserMixin, db.Model):
     __tablename__ = "users"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     email: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(String(100), nullable=False)
@@ -114,40 +113,6 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 
 
-# For Testing
-def add_all_questions(admin_id: int):
-    questions = [
-        # Ice Breaker Questions
-        Questions(
-            level="ice breaker",
-            text="How do you usually spend your weekends?",
-            created_by=admin_id
-        ),
-        Questions(
-            level="deep",
-            text="What’s the last movie or TV show you really enjoyed?",
-            created_by=admin_id
-        ),
-        Questions(
-            level="confess",
-            text="What’s a hobby you could talk about for hours?",
-            created_by=admin_id
-        ),
-        Questions(
-            level="ice breaker",
-            text="If you could visit anywhere in the world, where would you go and why?",
-            created_by=admin_id
-        ),
-        Questions(
-            level="ice breaker",
-            text="Do you prefer the beach, mountains, or city for a getaway?",
-            created_by=admin_id
-        )
-    ]
-    db.session.add_all(questions)  # Add all questions to session
-    db.session.commit()
-
-
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(Users, int(user_id)) #returns none if not found instead of 404
@@ -169,35 +134,9 @@ def verify_password(hashed_password, password):
     return check_password_hash(hashed_password, password)
 
 
-# @app.route('/')
-# def home():
-#     db.create_all()
-#     add_all_questions(1)
-#     return render_template('index.html', current_user=current_user)
 @app.route('/')
 def home():
-    db.create_all()
-
-    # Check if admin user exists
-    admin_user = Users.query.get(1)
-    if not admin_user:
-        admin_user = Users(
-            id=1,
-            name="Admin",
-            email="admin@example.com",
-            password="hashed-or-temp-password",  # Replace with a hashed password in real use
-            reset_token=None,
-            reset_token_expiry=None
-        )
-        db.session.add(admin_user)
-        db.session.commit()
-
-    # Add questions only if none exist (prevent duplicates)
-    if not Questions.query.first():
-        add_all_questions(admin_user.id)
-
     return render_template('index.html', current_user=current_user)
-
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -220,7 +159,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         login_user(new_user)
-        return redirect(url_for("menu"))
+        return redirect(url_for("sessions"))
     return render_template("register.html", form=form)
 
 
